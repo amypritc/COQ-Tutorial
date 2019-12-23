@@ -1,5 +1,5 @@
 
-The language of Coq is functional, and has similarities to OCaml. If you are not familiar with functional programming, this section will help introduce some basic syntax and concepts to get you started.
+The language of Coq is functional, and has similarities to OCaml. If you are not familiar with functional programming, this section will help introduce some basic syntax and concepts to get you started. See file "Basics.v"
 
 \subsection{Comments} \label{comments}
 Comments in Coq are surrounded by (*  *).
@@ -61,14 +61,6 @@ Coq has built in notation for lists that you can use; however, to use the notati
 	\Load List.
 \end{code}
 
-\noindent
-You can also define your own lists like they are defined in Coq; for example, this defines a list of nat numbers:
-\begin{code}
-\Inductive \nm{natlist} : \Type :=
-  $\mid$ nil
-  $\mid$ cons (n : nat) (l : natlist).
-\end{code}
-
 
 \noindent
 Lists cannot contain elements of different types. 
@@ -91,6 +83,22 @@ From there, you can use the following notations (general case on the left, list 
 \end{code} 
 \end{tabular}
 The empty list is always denoted as [ ]; When using the double colon appended list, you must have the empty list as the right-most element.
+
+
+\noindent
+You can also define your own lists like they are defined in Coq; for example, this defines a list of nat numbers:
+\begin{code}
+\Inductive \nm{natlist} : \Type :=
+  $\mid$ nil
+  $\mid$ cons (n : nat) (l : natlist).
+\end{code}
+
+
+
+
+
+
+
 \\ \\
 \noindent
 The following functions are defined in the List library; for examples of the use of most of these, please see Example \ref{list}.
