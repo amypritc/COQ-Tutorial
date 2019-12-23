@@ -1,0 +1,160 @@
+
+This section contains brief descriptions of some commonly used proof tactics.
+For the full breakdown of all Coq tactics, please refer to the Tactic Index of the Coq documentation that can be found here:
+\url{https://coq.inria.fr/distrib/current/refman/coq-tacindex.html}.
+
+
+\subsection{simpl} \label{simpl}
+Simplify both sides of an equation.
+
+\noindent
+Examples using this tactic: 
+\ref{count_to_n},
+\ref{sum_to_n}
+
+
+
+
+\subsection{reflexivity} \label{reflexivity}
+Check if both sides of an equation are equal. 
+Will do more simplifications that simpl; tries unfolding and expanding definitions.
+
+\noindent
+Examples using this tactic: 
+\ref{sum_to_n}
+
+
+
+
+\subsection{trivial} \label{trivial}
+A restriction of auto that is not recursive. 
+Tries simple hints, like solving trivial equalities such as x=x.
+
+\noindent
+Examples using this tactic: 
+\ref{count_to_n},
+\ref{sum_to_n}
+
+
+
+\subsection{auto} \label{auto}
+First attempts to use assumption, then uses intros and generates any hypotheses to use as hints and attempt to apply.
+
+\noindent
+Examples using this tactic: 
+
+
+
+\subsection{ring} \label{ring}
+Very useful when proving over numbers.
+Solves equations upon polynomial expressions of a ring structure. 
+Normalizes and compares results.
+Uses properties like associativity, commutativity, distributivity, and constant propagation.
+
+\noindent
+Examples using this tactic: 
+\ref{sum_to_n}
+
+
+\subsection{discriminate} \label{discriminate}
+Proves any goal in an assumption stating two structurally different terms of an inductive set are equal. For example, S (S O) = S O.
+
+\noindent
+Examples using this tactic: 
+
+
+
+\subsection{assumption} \label{assumption}
+Looks in the local context for the hypothesis. The type must be convertible to the goal.
+
+\noindent
+Examples using this tactic: 
+
+
+
+\subsection{intros} \label{intros}
+Introduces variables from the goal into the proof environment for use.
+
+\noindent
+Examples using this tactic: 
+\ref{count_to_n}, 
+\ref{sum_to_n}
+
+
+\subsection{contradiction} \label{contradiction}
+Attempts to find a hypothesis equivalent to:
+\begin{itemize}
+	\item an empty inductive type (i.e. false)
+	\item the negation of a single inductive type (i.e. true, x=x)
+	\item two contradictory hypotheses
+\end{itemize}
+
+\noindent
+Examples using this tactic: 
+
+
+
+\subsection{induction} \label{induction}
+The object must be of an inductive type to use induction. 
+This generates subgoals and an induction hypothesis.
+
+\noindent
+Examples using this tactic: 
+\ref{count_to_n}
+
+
+
+\subsection{functional induction} \label{functional induction}
+Very useful for inductive/recursive functions.
+Performs case analysis and induction on the definition of a function.
+To use functional induction, you need to make sure to require and load FunInd, and then define the functional induction scheme.
+
+\begin{code}
+\cmd{Require} \nm{FunInd}.	\\
+\Load FunInd.
+\\ \\
+Functional Scheme name\_ind := 
+  Induction for name Sort \ty{Prop}.
+\end{code}
+
+\noindent
+Examples using this tactic: 
+\ref{sum_to_n}
+
+
+\subsection{destruct} \label{destruct}
+Creates subgoals from a more complex goal. 
+Subgoals must be proven separately.
+Can be used with any inductively defined type.
+Can be used nested if a generated subgoal needs to be broken up further.
+Allows you to specify the names of variables to be used in proving the subgoals.
+
+\noindent
+Examples using this tactic: 
+
+
+
+\subsection{rewrite} \label{rewrite}
+A way to apply previously defined assumptions.
+Can use arrows $<-$ , $->$ to give directionality for the application.
+Example \ref{sum_to_n} demonstrates the use of arrows to give directionality to rewrite.
+
+\noindent
+Examples using this tactic: 
+\ref{count_to_n}, 
+\ref{sum_to_n}
+
+
+\subsection{apply} \label{apply}
+Attempts to match the current goal against the conclusion of the given term.
+
+\noindent
+Examples using this tactic:
+
+
+
+
+
+%\subsection{} \label{}
+
+

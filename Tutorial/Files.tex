@@ -1,0 +1,104 @@
+
+
+\subsection{Standard Libraries} \label{stdlib}
+
+\begin{tabular}{l L}
+Logic 	&
+	Classical logic and dependent equality
+\\	
+Arith 		&
+	Basic Peano arithmetic
+\\
+PArith 	&
+	Basic positive integer arithmetic
+\\
+NArith  	&
+	Basic binary natural number arithmetic
+\\
+ZArith 	&
+	Basic relative integer arithmetic
+\\
+Numbers 	&
+	Various approaches to natural, integer and cyclic numbers (currently axiomatically and on top of $2^{31}$ binary words)
+\\
+Bool 		&
+	Booleans (basic functions and results)
+\\
+Lists 		& 
+	Monomorphic and polymorphic lists (basic functions and results), Streams (infinite sequences defined with co-inductive types)
+\\
+Sets		& 
+	Sets (classical, constructive, finite, infinite, power set, etc.)
+\\
+FSets 		&
+	Specification and implementations of finite sets and finite maps (by lists and by AVL trees)
+\\
+Reals		&
+	Axiomatization of real numbers (classical, basic functions, integer part, fractional part, limit, derivative, Cauchy series, power series and results,...)
+\\
+Relations		&
+	Relations (definitions and basic results)
+\\
+Sorting		&
+	Sorted list (basic definitions and heapsort correctness)
+\\
+Strings 		&
+	8-bits characters and strings
+\\
+Wellfounded		&
+	Well-founded relations (basic results)
+\\
+\end{tabular}
+
+
+
+
+\subsection{Require} \label{require}
+To use the standard libraries or other compiled files, you first need to tell the environment that it needs to load the compiled file. 
+Require adds the specified module and all of its dependencies to the environment. 
+
+\begin{code}
+	\cmd{Require} Logic.
+\end{code}
+
+\noindent
+Require Import loads the specified module and its dependences, then imports the contents of the specified module.
+
+\begin{code}
+	\cmd{Require Import} Bool.
+\end{code}
+
+\noindent
+Require Export acts like Require Import, but will ensure that any module B that uses Require Import on the module A that contained the Require Export command will import both module A and the one specified in the Require Export command.
+
+\begin{code}
+	\cmd{Require Export} Bool.
+\end{code}
+
+
+
+
+\subsection{Load} \label{load}
+This is used to load a file or library into the current environment. 
+To load one of the standard libraries, you can simply use the Load command.
+
+\begin{code}
+	\cmd{Load} Arith.
+\end{code}
+
+\noindent
+However, to load any other existing file, you will likely need to specify where to look for the file; to do this, there is the Add LoadPath command.
+All the commands in the loaded file will be evaluated
+
+\begin{code}
+	\cmd{Add} LoadPath \str{``myDirectory/path"}. \\
+	\cmd{Load} myFile. 
+\end{code}
+
+
+
+
+
+
+
+

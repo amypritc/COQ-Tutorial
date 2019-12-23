@@ -1,0 +1,74 @@
+
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{float}
+\usepackage{caption}
+
+\newcolumntype{L}{>{\arraybackslash}p{14cm}}
+\newcolumntype{C}{>{\centering\arraybackslash}p{1.8cm}}
+\newcommand{\centered}[1]{\begin{tabular}{l} #1 \end{tabular}}
+\newcommand{\centeredl}[1]{\begin{tabular}{p{14cm}} #1 \end{tabular}}
+
+\newtcolorbox{code}{colback=blue!10,colframe=white}
+\newtcolorbox{msg}{colback=yellow!10,colframe=white}
+\newtcolorbox{goal}{colback=green!10,colframe=white}
+
+\colorlet{darkpink}{red!60}
+\colorlet{darkred}{red!60!black!100}
+\colorlet{lightpurple}{purple!70!blue!70}
+\colorlet{darkblue}{blue!60!black!100}
+\colorlet{darkgreen}{green!40!black!100}
+\colorlet{teal}{green!50!blue!100}
+
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+
+\newcommand{\cmd}[1]{\textcolor{lightpurple}{#1}}
+\newcommand{\cmt}[1]{\textcolor{darkred}{(* #1 *)}}
+\newcommand{\str}[1]{\textcolor{darkpink}{#1}}
+
+\newcommand{\nm}[1]{\textcolor{darkblue}{#1}}
+\newcommand{\df}[1]{\textcolor{red}{#1}}
+\newcommand{\ty}[1]{\textcolor{teal}{#1}}
+\newcommand{\kw}[1]{\textcolor{darkgreen}{#1}}
+
+
+\newcommand{\Type}{\ty{Type}\ }
+\newcommand{\Set}{\ty{Set}\ }
+
+\newcommand{\Inductive}{\df{Inductive}\ }
+\newcommand{\Definition}{\df{Definition}\ }
+\newcommand{\Fixpoint}{\df{Fixpoint}\ }
+
+\newcommand{\Theorem}{\df{Theorem}\ }
+\newcommand{\Lemma}{\df{Lemma}\ }
+\newcommand{\Example}{\df{Example}\ }
+
+\newcommand{\Proof}{\cmd{Proof}}
+\newcommand{\Qed}{\cmd{Qed}}
+\newcommand{\Admitted}{\cmd{Admitted}}
+\newcommand{\Abort}{\cmd{Abort}}
+
+\newcommand{\Load}{\cmd{Load}\ }
+\newcommand{\Check}{\cmd{Check}\ }
+\newcommand{\Notation}{\cmd{Notation}\ }
+
+\newcommand{\match}{\kw{match}\ }
+\newcommand{\with}{\kw{with}\ }
+\newcommand{\End}{\kw{end}}
+\newcommand{\If}{\kw{if}\ }
+\newcommand{\Then}{\kw{then}\ }
+\newcommand{\Else}{\kw{else}\ }
+\newcommand{\Forall}{\kw{forall}\ }
+\newcommand{\as}{\kw{as}\ }
+%\newcommand{\}{\{}\ }
+
+\newcommand{\iconsize}{1.25cm}
+\newcommand{\halfsize}{8cm}
+
+

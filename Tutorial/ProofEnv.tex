@@ -1,0 +1,51 @@
+
+\subsection{Assertions} \label{assertions}
+To switch on the proof environment, you first need to use one of the keywords for an assertion. It does not matter which one you choose, all have the same behavior - it is more a matter of personal preference. 
+
+\noindent
+These keywords are: 
+
+Theorem,
+Lemma,
+Corollary,
+Proposition,
+Fact,
+Goal,
+Example, 
+Remark
+\\ \\
+\noindent
+After using one of the keywords, you will give your assertion a name, followed by a semi-colon, then write out the body of your assertion, followed by a period. 
+
+\noindent
+The theorem template (Templates tab $\to$ Theorem) is shown below:
+\begin{code}
+	\Theorem \nm{new\_theorem} : .	\\
+	\Proof.
+	\\ \\
+	\Qed.
+\end{code}
+
+
+\subsection{Proof Environment Commands} \label{proof_env_cmd}
+
+\begin{tabular}{l L}
+\Proof. &
+	Begins the proof.
+\\ \\
+\Qed. &
+	Ends and saves the proof; will fail if the assertion is not fully proven.
+\\ \\
+\Admitted. &
+	Gives up the current proof; declares the initial goal as an axiom that can be used in other proofs (but will need to be fully proven later).
+\\ \\
+\Abort. &
+	Cancels the current proof development.
+\end{tabular}
+
+
+
+
+
+
+

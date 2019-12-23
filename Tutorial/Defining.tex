@@ -1,0 +1,125 @@
+
+
+
+\subsection{Inductive} \label{inductive}
+The command Inductive is used to define simple inductive types and the constructors used in the type.
+
+\noindent
+For example, boolean values are defined in Coq as:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+	\begin{code}
+		\df{Inductive} \nm{bool} : \ty{Type} := 	\\ \-\ \quad
+ 		 $\mid$ true						\\ \-\ \quad
+ 		 $\mid$ false.						\\		
+	\end{code}
+&
+	\begin{msg}
+		nat is defined			\\
+		nat\_rect is defined		\\
+		nat\_ind is defined		\\
+		nat\_rec is defined
+	\end{msg}
+\end{tabular}
+and nat numbers are defined as:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+	\begin{code}
+		\df{Inductive} \nm{nat} : \ty{Type} := 	\\ \-\ \quad
+ 		 $\mid$ O							\\ \-\ \quad
+ 		 $\mid$ S (n: nat).					\\		
+	\end{code}
+&
+	\begin{msg}
+		bool is defined			\\
+		bool\_rect is defined		\\
+		bool\_ind is defined		\\
+		bool\_rec is defined
+	\end{msg}
+\end{tabular}
+
+\noindent
+You can see what all the definitions it created are by using Print:
+
+\begin{code}	\cmd{Print} nat.			\end{code}
+\begin{msg}
+	\df{Inductive} nat : \ty{Set} :=  O : \nm{nat} $\mid$ S : \nm{nat} $->$ \nm{nat}
+\end{msg}
+\begin{code}	\cmd{Print} nat\_rect.		\end{code}
+\begin{msg}
+	nat\_rect = 	\\
+	\kw{fun} (P : \nm{nat} $->$ \ty{Type}) (f : P \nm{O}) (f0 : \kw{forall} n : \nm{nat}, P n $->$ P (\nm{S} n)) $=>$	\\
+	\kw{fix} F (n : \nm{nat}) : P n := \kw{match} n \kw{as} n0 \kw{return} (P n0) \kw{with}		\\ \-\ \qquad\qquad
+			$\mid$ \nm{O} $=>$ f									\\ \-\ \qquad\qquad
+			$\mid$ \nm{S} n0 $=>$ f0 n0 (F n0)							\\ \-\ \qquad\qquad
+			\kw{end}												\\ \-\ \qquad
+		: \kw{forall} P : \nm{nat} $->$ \ty{Type}, P \nm{O} $->$ (\kw{forall} n : \nm{nat}, P n 
+			$->$ P (\nm{S} n)) $->$ \kw{forall} n : \nm{nat}, P n
+	\\ \\
+	Argument scopes are [function\_scope \_ function\_scope \_\ ]
+\end{msg}
+\begin{code}	\cmd{Print} nat\_ind.		\end{code}
+\begin{msg}
+	nat\_rect = 	\\
+	\kw{fun} (P : \nm{nat} $->$ \ty{Prop}) (f : P \nm{O}) (f0 : \kw{forall} n : \nm{nat}, P n $->$ P (\nm{S} n)) $=>$	\\
+	\kw{fix} F (n : \nm{nat}) : P n := \kw{match} n \kw{as} n0 \kw{return} (P n0) \kw{with}		\\ \-\ \qquad\qquad
+			$\mid$ \nm{O} $=>$ f									\\ \-\ \qquad\qquad
+			$\mid$ \nm{S} n0 $=>$ f0 n0 (F n0)							\\ \-\ \qquad\qquad
+			\kw{end}												\\ \-\ \qquad
+		: \kw{forall} P : \nm{nat} $->$ \ty{Prop}, P \nm{O} $->$ (\kw{forall} n : \nm{nat}, P n 
+			$->$ P (\nm{S} n)) $->$ \kw{forall} n : \nm{nat}, P n
+	\\ \\
+	Argument scopes are [function\_scope \_ function\_scope \_\ ]
+\end{msg}
+\begin{code}	\cmd{Print} nat\_rec.		\end{code}
+\begin{msg}	
+	nat\_rec = 								\\
+	\kw{fun} P : \nm{nat} $->$ \ty{Set} $=>$ \nm{nat\_rect} P				\\ \-\ \qquad
+		: \kw{forall} P : \nm{nat} -$>$ \ty{Set},					
+		  P \nm{O} $->$						
+       			(\kw{forall} n : \nm{nat}, P n $->$ P (\nm{S} n)) $->$ \kw{forall} n : \nm{nat}, P n 
+	\\ \\
+	Argument scopes are [function\_scope \_ function\_scope \_\ ]
+\end{msg}
+
+\noindent
+You can use these properties of what you've defined in proofs.
+
+
+
+
+
+
+
+\subsection{Definition} \label{definition}
+
+
+
+
+
+
+\subsection{Notation} \label{notation}
+
+
+
+
+
+
+\subsection{Fixpoint} \label{fixpoint}
+
+
+
+
+
+
+\subsection{Compute} \label{compute}
+
+
+
+
+
+
+
+
