@@ -1,0 +1,26 @@
+
+This example defines a recursive function that takes a number n and returns the sum of the numbers from one to n.
+It then proves that for all nat numbers, 2 * sum n = (1 + n) * n.
+This assertion is equivalent to sum n = ((1 + n) * n) / 2; 
+however, it is much easier to prove when we do not involve division.
+First, a longer proof using properties of addition and multiplication will be shown, 
+then the shorter version that applies the ring tactic to take care of the application of many of these properties for us.
+
+\begin{code}
+	\Load \nm{Arith}.
+	\\ \\
+	\Fixpoint \nm{sum} (n : nat) : nat := 		\\ \-\ \quad
+	\match n \with						\\ \-\ \quad
+	$\mid$ O $=>$ 0					\\ \-\ \quad
+	$\mid$ S p $=>$ (S p) + (sum p)		\\ \-\ \quad
+	\End.
+\end{code}
+
+\noindent
+In this example, we will use functional induction to help us successfully complete our proof over the recursive function sum.
+To do this, we must first make sure to require and load FunInd, and then define the functional induction scheme.
+
+
+
+
+

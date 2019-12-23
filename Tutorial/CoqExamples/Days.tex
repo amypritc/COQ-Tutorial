@@ -1,0 +1,74 @@
+
+This example ...
+\\~\\
+
+\noindent
+First, we define what a day is using the following definition:
+
+\begin{code}
+\Inductive \nm{day}: \Type :=		\\ \-\ \quad
+  $\mid$ monday : day			\\ \-\ \quad
+  $\mid$ tuesday : day			\\ \-\ \quad
+  $\mid$ wednesday : day			\\ \-\ \quad
+  $\mid$ thursday : day			\\ \-\ \quad
+  $\mid$ friday : day				\\ \-\ \quad
+  $\mid$ saturday : day			\\ \-\ \quad
+  $\mid$ sunday : day.
+\end{code}
+
+\noindent
+Then we define a simple function to compute what the next weekday is after a given day. 
+This takes a day as input, and gives back what the next weekday would be.
+
+\begin{code}
+\Definition \nm{next\_weekday} (d:day): day :=		\\ \-\ \quad
+  \match d \with								\\ \-\ \qquad
+   $\mid$ monday $=>$ tuesday					\\ \-\ \qquad
+   $\mid$ tuesday $=>$ wednesday				\\ \-\ \qquad
+   $\mid$ wednesday $=>$ thursday				\\ \-\ \qquad
+   $\mid$ thursday $=>$ friday					\\ \-\ \qquad
+   $\mid$ friday $=>$ monday					\\ \-\ \qquad
+   $\mid$ saturday $=>$ monday				\\ \-\ \qquad
+   $\mid$ sunday $=>$ monday					\\ \-\ \quad
+  \End.
+\end{code}
+
+\noindent
+We can perform some simple computations to check the correctness of our function:
+
+\hspace{-1cm}
+\begin{tabular}{p{9cm} p{7cm}}
+\begin{code} 	Compute (next\_weekday friday).	\end{code}
+\begin{code}	Compute next\_weekday (next\_weekday friday).	\end{code}	
+&	
+\begin{msg}	     = \nm{monday}     : \nm{day}	\end{msg}
+\begin{msg}	     = \nm{tuesday}     : \nm{day}		\end{msg}
+\end{tabular}
+
+\noindent
+We can also do a simple proof to check that the results are as expected.
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Example \nm{test\_next\_weekday}:			\\ \-\ \quad
+	  (next\_weekday (next\_weekday saturday)) 	\\ \-\ \qquad
+	  	= tuesday.							\\
+	\Proof.
+\end{code}
+&
+\begin{msg}
+1 subgoal			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+next\_weekday (next\_weekday saturday) = tuesday
+\end{msg}
+\end{tabular}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+
+A simple example defining suits and values for cards, and what a valid card is. In the function \blue{check\_num}, we check if the number given is less than 11 and greater than 1. In function \blue{is\_valid\_card}, we pattern match against various types of cards. Here, the given card is represented by the variable x. The type card is defined to be \blue{c (s: suit) (v: val)}, and we know that an \blue{s} of type suit can only be one of the valid suits we defined, so we can use some variable, say \blue{q}, to represent allowing any suit type; the part we need to ensure is valid is the value given to the suit, since a valid card can only have a value of an ace, king, queen, jack, or number values 2 thru 10.
+
+\begin{code}
+\Load List. 	\\
+\Load Bool.
+\\ \\
+\Inductive \nm{suit} : \Type :=
+  $\mid$ heart
+  $\mid$ diamond
+  $\mid$ spade
+  $\mid$ club.
+
+\Inductive \nm{val} : \Type :=
+  $\mid$ ace
+  $\mid$ king
+  $\mid$ queen
+  $\mid$ jack
+  $\mid$ num (n: nat).
+
+\Inductive \nm{card} : \Type :=
+  $\mid$ c (s: suit) (v: val).
+\\ \\
+\cmt{Card: 2 of Spades} 	\\
+\Check (c spade (num 2)).
+\\ \\
+\cmt{List of suits}	\\
+\Check (ace::king::[ ]).
+\\ \\
+\cmt{List of Cards} 	\\
+\Check [c heart ace; c diamond king; c spade queen].
+\\ \\
+\Definition \nm{check\_num} (x: nat) : bool :=	 \\ \-\ \quad
+  \If (x $<?$ 11)						 \\ \-\ \quad
+  \Then \If (1 $<?$ x)					 \\ \-\ \qquad
+       \Then true						 \\ \-\ \qquad
+       \Else false						 \\ \-\ \quad
+  \Else false.
+%\\ \\
+%Compute check\_num 0.
+%Compute check\_num 1.
+%Compute check\_num 2.
+%Compute check\_num 10.
+%Compute check\_num 11.
+\\ \\
+\Definition \nm{is\_valid\_card} (x: card) : bool :=	 \\ \-\ \quad
+ \match x \with						 \\ \-\ \quad
+  $\mid$ c q ace $=>$ true				 \\ \-\ \quad
+  $\mid$ c q king $=>$ true			 \\ \-\ \quad
+  $\mid$ c q queen $=>$ true			 \\ \-\ \quad
+  $\mid$ c q jack $=>$ true			 \\ \-\ \quad
+  $\mid$ c q (num n) $=>$ 				 \\ \-\ \qquad\quad
+        \If (check\_num n)				 \\ \-\ \qquad\quad
+        \Then true			 			 \\ \-\ \qquad\quad
+        \Else false						 \\ \-\ \quad
+ \End.
+\\ \\
+\cmt{Ace of Hearts is a valid card}	\\
+Compute is\_valid\_card (c heart ace).
+\\ \\
+\cmt{11 of Diamonds is NOT a valid card}	\\
+Compute is\_valid\_card (c diamond (num 11)).
+
+%Compute is\_valid\_card (c heart (num 10)).
+%Compute is\_valid\_card (c heart king).
+%Compute is\_valid\_card (c heart queen).
+%Compute is\_valid\_card (c heart jack).
+%Compute is\_valid\_card (c heart (num 9)).
+%Compute is\_valid\_card (c heart (num 1)).
+%\Check (c heart ace).
+
+\end{code}
+
+
+
+
+
+
+
+
+
+
+
+

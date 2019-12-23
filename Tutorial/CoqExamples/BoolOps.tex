@@ -1,0 +1,35 @@
+
+Simple example of the definition of booleans and some boolean operations.
+
+\begin{code}
+\Inductive \nm{bool} :=
+  $\mid$ true
+  $\mid$ false.
+\\ \\
+\Definition \nm{not} (b : bool) : bool :=		\\ \-\ \quad
+  \match b \with							\\ \-\ \quad
+   $\mid$ true $=>$ false					\\ \-\ \quad
+   $\mid$ false $=>$ true					\\ \-\ \quad
+  \End.
+\\ \\
+\Definition \nm{and} (b1 b2 : bool) : bool :=	\\ \-\ \quad
+  \match (b1, b2) \with					\\ \-\ \quad
+   $\mid$ (true, true) $=>$ true				\\ \-\ \quad
+   $\mid$ (\_\ , \_\ ) $=>$ false				\\ \-\ \quad
+  \End.
+\\ \\
+\Definition \nm{or} (b1 b2 : bool) : bool :=		\\ \-\ \quad
+  \match (b1, b2) \with					\\ \-\ \quad
+   $\mid$ (false, false) $=>$ false			\\ \-\ \quad
+   $\mid$ (\_\ , \_\ ) $=>$ true				\\ \-\ \quad
+  \End.
+\\ \\
+\Definition \nm{xor} (b1 b2 : bool) : bool :=		\\ \-\ \quad
+  \match (b1, b2) \with					\\ \-\ \quad
+   $\mid$ (true, false) $=>$ true				\\ \-\ \quad
+   $\mid$ (false, true) $=>$ true				\\ \-\ \quad
+   $\mid$ (\_\ , \_\ ) $=>$ false				\\ \-\ \quad
+  \End.
+\end{code}
+
+

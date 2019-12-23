@@ -1,0 +1,223 @@
+
+A simple example defining a function that takes a number n and counts to n.
+We then work through proving that count n = n.
+
+\begin{code}
+	\cmd{Require Import} \nm{Arith}.		\\
+	\\
+	\Fixpoint \nm{count} (n : nat) : nat := 		\\ \-\ \quad
+	    	\match n \with					\\ \-\ \qquad
+		$\mid$ O $=>$ 0 				\\ \-\ \qquad
+		$\mid$ S p $=>$ 1 + count p		\\ \-\ \quad 
+		\End.
+	\\ \\
+	Compute count 10.
+\end{code}
+
+\noindent
+Now, we can state our theorem, and begin our proof. We will see that we are initially given one subgoal as follows:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Theorem \nm{count\_to\_n} : 			\\ \-\ \quad
+		\Forall n:nat, count n = n.			\\
+	\Proof.
+\end{code}
+& 
+\begin{goal}
+1 subgoal	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+forall n : nat, count n = n
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we need to introduce the variable n into the proof environment:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.
+\end{code}
+& 
+\begin{goal}
+1 subgoal	\\
+n : nat	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+count n = n
+\end{goal}
+\end{tabular}
+
+\noindent
+We will use induction to split this goal into two subgoals because nat numbers are inductively defined:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].
+\end{code}
+& 
+\begin{goal}
+2 subgoals	\\	
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/2)	\\
+count 0 = 0	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/2)	\\
+count (S n$'$) = S n$'$
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we enter into a subgoal environment, and see that it focuses on the 1st subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].		\\
+	\cmd{\{ -} 
+\end{code}
+& 
+\begin{goal}
+1 subgoal	\\	
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+count 0 = 0	
+\end{goal}
+\end{tabular}
+
+\noindent
+This result is trivial to solve, and we can use the proof tactic trivial:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].		\\
+	\cmd{\{ -} trivial.
+\end{code}
+& 
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+count (S n$'$) = S n$'$	
+\end{goal}
+\end{tabular}
+
+\newpage
+\noindent
+Now we close out this subgoal and move to the next involving the induction hypothesis:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].		\\
+	\cmd{\{ -} trivial. \cmd\}				\\
+	\cmd{\{ -}
+\end{code}
+& 
+\begin{goal}
+1 subgoal			\\
+n$'$ : nat			\\
+IHn$'$ : count n$'$ = n$'$	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+count (S n$'$) = S n$'$	
+\end{goal}
+\end{tabular}
+
+\noindent
+Our first goal here is to obtain what is on the left-hand side of the induction hypothesis equation within our subgoal. we can do this using the proof tactic simpl:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].		\\
+	\cmd{\{ -} trivial. \cmd\}				\\
+	\cmd{\{ -} simpl.
+\end{code}
+& 
+\begin{goal}
+1 subgoal			\\
+n$'$ : nat			\\
+IHn$'$ : count n$'$ = n$'$	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+S (count n$'$) = S n$'$	
+\end{goal}
+\end{tabular}
+
+\noindent
+Now we are able to use the rewrite proof tactic to rewrite our goal using the induction hypothesis:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].		\\
+	\cmd{\{ -} trivial. \cmd\}				\\
+	\cmd{\{ -} simpl. rewrite IHn'.
+\end{code}
+& 
+\begin{goal}
+1 subgoal			\\
+n$'$ : nat			\\
+IHn$'$ : count n$'$ = n$'$	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+S n$'$ = S n$'$	
+\end{goal}
+\end{tabular}
+
+\noindent 
+As you can see, both sides of our goal are equal, and we can use trivial again to finish off this goal, and Coq will then tell us we have no more subgoals:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].		\\
+	\cmd{\{ -} trivial. \cmd\}				\\
+	\cmd{\{ -} simpl. rewrite IHn'. trivial.
+\end{code}
+& 
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we can close out this proof and see that it is now defined in the environment:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Theorem \nm{count\_to\_n} : 			\\ \-\ \quad
+		\Forall n:nat, count n = n.			\\
+	\Proof.							\\
+	intros n.							\\
+	induction n \as [$\mid$ n$'$ IHn$'$].			\\
+	\cmd{\{ -} trivial. \cmd\}					\\
+	\cmd{\{ -} simpl. rewrite IHn$'$. trivial. \cmd\}		\\
+	\Qed.
+\end{code}
+& 
+\begin{msg}
+count\_to\_n is defined
+\end{msg}
+\end{tabular}
+
+
+
+
+
+
+
+

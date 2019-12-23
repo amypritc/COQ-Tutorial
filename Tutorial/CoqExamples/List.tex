@@ -1,0 +1,75 @@
+
+A simple example to demonstrate some uses of the built-in lists and list functions, and define a search function for lists of nat numbers. To use the notations and functions, you'll want to load List and open the list\_scope so everything works properly.
+
+\begin{code}
+	\cmd{Require Import} \nm{Arith}.				\\
+	\cmd{Load} List. 							\\
+	\cmd{Open Scope} list\_scope.					\\
+	\\
+	\Fixpoint \nm{search} (l : Datatypes.list nat) (n: nat) : bool :=  	\\ \-\ \quad
+	  \match l \with 								\\ \-\ \qquad
+	   $\mid$ [ ] $=>$ false						\\ \-\ \qquad
+	   $\mid$ hd :: tl $=>$ 						\\ \-\ \qquad\qquad
+	      \If (n $=?$ hd)							\\ \-\ \qquad\qquad
+	      \Then true								\\ \-\ \qquad\qquad
+	      \Else search tl n							\\ \-\ \quad
+	  \End.									
+\end{code}
+
+\noindent
+Uses of the list functions and results:
+	  
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}	Compute search [1;3;6;8] 5.		\end{code}	
+&
+\begin{msg}	= false     : bool					\end{msg}
+\\	
+\begin{code}	Compute length [1;2;3].			\end{code}
+&
+\begin{msg}	= 3     : nat					\end{msg}
+\\
+\begin{code}	Compute head [2;4;6].			\end{code}
+&
+\begin{msg}	= Some 2     : option nat			\end{msg}
+\\
+\begin{code}	Compute tail [3;6;9].				\end{code}
+&
+\begin{msg}	= [6; 9]     : Datatypes.list nat		\end{msg}
+\\
+\begin{code}	Compute app [1;2] [3;4].			\end{code}
+&
+\begin{msg}	= [1; 2; 3; 4]     : Datatypes.list nat	\end{msg}
+\\
+\begin{code}	Compute [1;2] ++ [3;4].			\end{code}
+&
+\begin{msg}	= [1; 2; 3; 4]     : Datatypes.list nat	\end{msg}
+\\
+\begin{code}	Compute 1::[2;3;5;7].				\end{code}
+&
+\begin{msg}	= [1; 2; 3; 5; 7]     : Datatypes.list nat	\end{msg}
+\\
+\begin{code}	Compute rev [9;7;5;3;1].			\end{code}
+&
+\begin{msg}	= [1; 3; 5; 7; 9]     : Datatypes.list nat	\end{msg}
+\\
+\begin{code}	Compute nth 0 [2;5;7;9].			\end{code}	
+&
+\begin{msg}	= fun \_ : nat $=>$ 2     : nat $->$ nat	\end{msg}
+\end{tabular}
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}	Compute nth 4 [2;5;7;9].			
+			\\ \cmt{Not found} 				\end{code}
+&
+\begin{msg}	= fun default : nat $=>$       default
+		\\     : nat $->$ nat					\end{msg}
+\\
+\begin{code}	Compute map (Nat.mul 3) [1;2;3].	\end{code}
+&
+\begin{msg}	= [3; 6; 9]     : Datatypes.list nat		\end{msg}
+\end{tabular}
+
+
+
