@@ -1,0 +1,53 @@
+
+Simple example defining less than, equal to, and less than or equal to operations over numbers.
+
+\begin{code}
+	\cmd{Require Import} Arith.	\\
+	\Load Bool.
+	\\ \\
+	\Definition \nm{lt} (n m : nat) : bool :=		\\ \-\ \qquad
+		  \If (n $<?$ m)					\\ \-\ \qquad
+		  \Then true					\\ \-\ \qquad
+		  \Else false.					\\
+	\Notation \str{``n $<$ m"} := (lt n m).
+	\\ \\
+	\Definition \nm{gt} (n m : nat) : bool :=	\\ \-\ \qquad
+		  \If (m $<=?$ n)				\\ \-\ \qquad
+		  \Then true					\\ \-\ \qquad
+		  \Else false.					\\
+	\Notation \str{``n $>$ m"} := (gt n m).
+	\\ \\
+	\Definition \nm{eq} (n m : nat) : bool :=	\\ \-\ \qquad
+		  \If (n $=?$ m)					\\ \-\ \qquad
+		  \Then true					\\ \-\ \qquad
+		  \Else false.					\\
+	\Notation \str{``n $=$ m"} := (eq n m).
+	\\ \\
+	\Definition \nm{neq} (n m : nat) : bool :=	\\ \-\ \qquad
+		  \If (n $=?$ m)					\\ \-\ \qquad
+		  \Then false					\\ \-\ \qquad
+		  \Else true.					
+	\\ \\
+	\Definition \nm{lteq} (n m : nat) : bool :=	\\ \-\ \qquad
+		  \If (n $<=?$ m)				\\ \-\ \qquad
+		  \Then true					\\ \-\ \qquad
+		  \Else false.					\\
+	\Notation \str{``n $<=$ m"} := (lteq n m).					
+	\\ \\
+	\Definition \nm{gteq} (n m : nat) : bool :=	\\ \-\ \qquad
+		  \If (m $<?$ n)					\\ \-\ \qquad
+		  \Then true					\\ \-\ \qquad
+		  \Else false.					\\
+	\Notation \str{``n $>=$ m"} := (gteq n m).
+\end{code}
+
+
+
+
+
+
+
+
+
+
+
