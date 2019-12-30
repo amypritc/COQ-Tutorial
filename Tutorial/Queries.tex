@@ -10,7 +10,7 @@ however, when doing multiple queries from the query pane, the results will show 
 
 \begin{figure}[!h]
 \centered{\includegraphics[width=15cm]
-        {CoqScreenshots/query_pane.png}}
+        {CoqScreenshots/query_pane_10.png}}
 \end{figure}
 
 \noindent
@@ -64,7 +64,7 @@ If you haven't loaded the library corresponding to what you are searching, you w
 \end{code}
 yields no results when the Arith library hasn't been added, but once we have imported the library we receive five results.
 \begin{code}
-	\cmd{Require} Import Arith. 	\\
+	\cmd{Require Import} Arith. 	\\
 	Search plus Nat.odd.
 \end{code}
 \begin{msg}
@@ -136,7 +136,7 @@ Displays information about the object with the given name
 	\end{code}	
 	&
 	\begin{msg} 	
-		Notation plus := Nat.add	\\
+		Notation plus := Init.Nat.add	\\
 		Expands to: Notation Coq.Init.Peano.plus
 	\end{msg}
 \end{tabular}
@@ -167,7 +167,7 @@ Displays information about the given name.
 \begin{tabular}{p{8cm} p{8cm}}
 	\begin{code} 	\cmd{Print} plus. 				\end{code}
 	&
-	\begin{msg} 	Notation plus := Nat.add			\end{msg}	
+	\begin{msg} 	Notation plus := Init.Nat.add			\end{msg}	
 \end{tabular}
 
 \noindent
