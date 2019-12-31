@@ -1,35 +1,33 @@
 
+Please see file ``Defining.v" to follow along with this code in the CoqIDE. 
 
-
-\subsection{Inductive} \label{inductive}
-The command Inductive is used to define simple inductive types and the constructors used in the type.
+\subsection{Sorts} \label{subsec: sort}
+There are three main Sorts for defining types: {\bf Prop}, {\bf Set}, and {\bf Type}. 
+\begin{itemize}
+	\item {\bf Prop}: This type is for logical propositions. 
+	\item {\bf Set}: This type is for small sets, such as booleans (bool) and natural numbers (nat). 
+	\item {\bf Type}: This type can be used for small sets as well as larger sets - it encompasses both {\bf Prop} and {\bf Set}. 
+\end{itemize}
 
 \noindent
-For example, boolean values are defined in Coq as:
+These are used in defining Inductive types, as shown in the next section.
+
+
+
+
+\subsection{Inductive} \label{subsec: inductive}
+The command Inductive is used to define simple inductive types and the constructors used in the type. 
+The name is placed directly after the keyword Inductive, when a colon followed by the Sort 
+(discussed in the previous section) of the inductive type you are defining. 
+This is followed by $:=$ and the constructors (i.e. elements) included in that type.  
+For example, boolean values are defined in Coq as follows:
 
 \hspace{-1cm}
 \begin{tabular}{p{8cm} p{8cm}}
 	\begin{code}
-		\df{Inductive} \nm{bool} : \ty{Type} := 	\\ \-\ \quad
+		\df{Inductive} \nm{bool} : \ty{Set} := 	\\ \-\ \quad
  		 $\mid$ true						\\ \-\ \quad
  		 $\mid$ false.						\\		
-	\end{code}
-&
-	\begin{msg}
-		nat is defined			\\
-		nat\_rect is defined		\\
-		nat\_ind is defined		\\
-		nat\_rec is defined
-	\end{msg}
-\end{tabular}
-and nat numbers are defined as:
-
-\hspace{-1cm}
-\begin{tabular}{p{8cm} p{8cm}}
-	\begin{code}
-		\df{Inductive} \nm{nat} : \ty{Type} := 	\\ \-\ \quad
- 		 $\mid$ O							\\ \-\ \quad
- 		 $\mid$ S (n: nat).					\\		
 	\end{code}
 &
 	\begin{msg}
@@ -37,6 +35,25 @@ and nat numbers are defined as:
 		bool\_rect is defined		\\
 		bool\_ind is defined		\\
 		bool\_rec is defined
+	\end{msg}
+\end{tabular}
+
+\noindent
+and nat numbers are defined as:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+	\begin{code}
+		\df{Inductive} \nm{nat} : \ty{Set} := 		\\ \-\ \quad
+ 		 $\mid$ O	: nat						\\ \-\ \quad
+ 		 $\mid$ S : nat $->$ nat.				\\		
+	\end{code}
+&
+	\begin{msg}
+		nat is defined			\\
+		nat\_rect is defined		\\
+		nat\_ind is defined		\\
+		nat\_rec is defined
 	\end{msg}
 \end{tabular}
 
@@ -87,34 +104,190 @@ You can see what all the definitions it created are by using Print:
 \noindent
 You can use these properties of what you've defined in proofs.
 
+~\\
+\noindent
+Similarly, you can define days of the week:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Inductive \nm{day}: \Type :=	\\ \-\quad
+ $\mid$ monday : day		\\ \-\quad
+ $\mid$ tuesday : day		\\ \-\quad
+ $\mid$ wednesday : day		\\ \-\quad
+ $\mid$ thursday : day		\\ \-\quad
+ $\mid$ friday : day			\\ \-\quad
+ $\mid$ saturday : day		\\ \-\quad
+ $\mid$ sunday : day.
+\end{code}
+&
+\begin{msg}			
+day is defined			\\
+day\_rect is defined		\\
+day\_ind is defined		\\
+day\_rec is defined		
+\end{msg}
+\end{tabular}
+
+\noindent
+or lists:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Inductive \nm{list} (A: \ty{Set}) : \ty{Set} :=	\\ \-\ \quad
+$\mid$ nil : list A						\\ \-\ \quad
+$\mid$ cons : A $->$ list A.				\\
+\end{code}
+&
+\begin{msg}
+list is defined			\\
+list\_rect is defined		\\
+list\_ind is defined		\\
+list\_rec is defined		
+\end{msg}
+\end{tabular}
 
 
 
 
 
 
-\subsection{Definition} \label{definition}
+
+\subsection{Definition} \label{subsec: definition}
+
+The command Definition is used to bind an name to some term. 
+The name is always placed directly after the keyword Definition, 
+and the term to bind to the name is given after $:=$. 
+For example, we can give the name $x$ a simple value of 4: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+Definition x := 4.
+\end{code}
+& 
+\begin{msg}
+x is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+or we can use this to define functions, such as the following simple function 
+(using the previous weekday inductive type definition), 
+taking a weekday as input and giving back the weekday as output. 
+Here, we are specifying the parameter $d$ of type $day$ must be given to the function. 
+When giving a parameter, you give the $(paramName: type)$ as in $(d:day)$. 
+The parameters are then followed by the return type, as in $: returnType$. 
+This is shown in the following example. 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Definition \nm{next\_weekday} (d:day) : day :=	\\ \-\ \quad
+  \match d \with							\\ \-\ \qquad
+   $\mid$ monday $=>$ tuesday				\\ \-\ \qquad
+   $\mid$ tuesday $=>$ wednesday			\\ \-\ \qquad
+   $\mid$ wednesday $=>$ thursday			\\ \-\ \qquad
+   $\mid$ thursday $=>$ friday				\\ \-\ \qquad
+   $\mid$ friday $=>$ monday				\\ \-\ \qquad
+   $\mid$ saturday $=>$ monday			\\ \-\ \qquad
+   $\mid$ sunday $=>$ monday				\\ \-\ \quad
+  \End.
+\end{code}
+& 
+\begin{msg}
+next\_weekday is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+Another simple example function definition 
+(using the previous nat number inductive type definition) 
+is taking a nat number and returning that result of adding 2 to that nat number: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Definition \nm{plus2} (n:nat) : nat :=		\\ \-\ \quad
+  \match n \with						\\ \-\ \qquad
+    $\mid$ O $=>$ S (S O)				\\ \-\ \qquad
+    $\mid$ \_ $=>$ S (S n)				\\ \-\ \quad
+  \End.
+\end{code}
+& 
+\begin{msg}
+plus2 is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+You can also give multiple parameters, as shown in the example below using 3 parameters: 
+
+\hspace{-1cm}
+\begin{tabular}{p{12cm} p{4cm}}
+\begin{code}
+\Definition \nm{choose1} (b: bool) (n1: Datatypes.nat) (n2: Datatypes.nat) : Datatypes.nat :=	\\ \-\ \quad
+  \match b \with										\\ \-\ \qquad
+    $\mid$ true $=>$ n1								\\ \-\ \qquad
+    $\mid$ false $=>$ n2								\\ \-\ \quad
+  \End.
+\end{code}
+& 
+\begin{msg}
+choose1 is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+We have to specify that we would like to use Datatypes.nat as our type in order to use 
+natural numbers (i.e. 0, 1, 2, 3, 4, 5, 6, 7, 8, 9), as we have not specified how to interpret these 
+numbers from our definition of nat (you can do this using the Notation command 
+- using this command will be discussed in the following subsection \ref{subsec: notation}). 
+Alternately, we can define the same function without giving the types of the parameters 
+(however, it is always best practice to declare the types of all parameters, 
+to ensure they are interpreted as you expect them to be). 
+When you do not specify the types of parameters, the parentheses around the 
+parameter names are optional. 
+
+\hspace{-1cm}
+\begin{tabular}{p{12cm} p{4cm}}
+\begin{code}
+\Definition \nm{choose1$'$} b n1 n2 : Datatypes.nat :=		\\ \-\ \quad
+  \match b \with										\\ \-\ \qquad
+    $\mid$ true $=>$ n1								\\ \-\ \qquad
+    $\mid$ false $=>$ n2								\\ \-\ \quad
+  \End.
+\end{code}
+& 
+\begin{msg}
+choose1$'$ is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+Both {\it $choose$1} and {\it $choose$1$'$} have the same functionality. 
 
 
 
 
 
 
-\subsection{Notation} \label{notation}
+\subsection{Notation} \label{subsec: notation}
 
 
 
 
 
 
-\subsection{Fixpoint} \label{fixpoint}
+\subsection{Fixpoint} \label{subsec: fixpoint}
 
 
 
 
 
 
-\subsection{Compute} \label{compute}
+\subsection{Compute} \label{subsec: compute}
 
 
 

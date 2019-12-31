@@ -44,11 +44,3 @@ Print Libraries.
 Print Assumptions plus.
 
 
-
-Compute 2 + 4.
-
-Compute plus 4 2.
-
-Compute (mult 12 4) * 3.
-
-
