@@ -1,18 +1,18 @@
 
 The language of Coq is functional, and has similarities to OCaml. If you are not familiar with functional programming, this section will help introduce some basic syntax and concepts to get you started. See file ``Basics.v"
 
-\subsection{Comments} \label{comments}
+\subsection{Comments} \label{subsec: comments}
 Comments in Coq are surrounded by (*  *).
 \begin{code}
 	\cmt{ This is a comment in Coq. }
 \end{code}
 
 
-\subsection{Commands} \label{commands}
+\subsection{Commands} \label{subsec: commands}
 All commands in Coq must end with a period. The various available commands are discussed throughout this document; please see the respective sections for more information on any specific commands.
 
 
-\subsection{Pattern Matching} \label{pattern_matching}
+\subsection{Pattern Matching} \label{subsec: pattern_matching}
 
 Pattern matching is a useful way to specify what should occur when you see a specific option of a type. For example, with booleans you have the options of true and false.
 In general, you have something like this for a single variable:
@@ -55,7 +55,7 @@ See example \ref{bool_ops} for some simple boolean functions using pattern match
 
 
 
-\subsection{Lists} \label{list} 
+\subsection{Lists} \label{subsec: list} 
 Coq has built in notation for lists that you can use; however, to use the notations, you must make sure to load the List library beforehand. 
 \begin{code}
 	\Load List.
@@ -128,7 +128,7 @@ fold\_right :
 
 
 
-\subsection{Tuples} \label{tuple} 
+\subsection{Tuples} \label{subsec: tuple} 
 
 A tuple is given by two or more comma separated objects enclosed in parentheses. Tuples can contain items of the same or different types.
 
@@ -145,7 +145,7 @@ A tuple is given by two or more comma separated objects enclosed in parentheses.
 
 
 
-\subsection{Boolean Expressions for Branches} \label{bool_expr} 
+\subsection{Boolean Expressions for Branches} \label{subsec: bool_expr} 
 To use boolean expressions on numbers in an if then else, make sure you've imported Arith and loaded Bool:
 \begin{code}
 	\cmd{Require Import} Arith.	\\
@@ -175,7 +175,7 @@ To my knowledge, there is not pre-defined notation in Coq for greater than or no
 
 
 
-\subsection{Option Types} \label{opt_ty}
+\subsection{Option Types} \label{subsec: opt_ty}
 When using some built-in functions in Coq, you may come across option types. 
 Option types are particularly useful when you want to return an element if it is found, or be told explicitly that it does not exist.
 In other languages, you would either need to have two separate functions, one to check if it exists and one to obtain the value, or return some sort of 'neutral' value, like -1 or 0, to indicate an item wasn't found.

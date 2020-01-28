@@ -129,8 +129,29 @@ day\_rec is defined
 \end{msg}
 \end{tabular}
 
+
 \noindent
-or lists:
+or lists of natural numbers:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Inductive \nm{natlist} \ty{Type} :=			\\ \-\ \quad
+$\mid$ nil								\\ \-\ \quad
+$\mid$ cons (n:Datatypes.nat) (l:natlist).		\\
+\end{code}
+&
+\begin{msg}
+list is defined			\\
+list\_rect is defined		\\
+list\_ind is defined		\\
+list\_rec is defined		
+\end{msg}
+\end{tabular}
+
+
+\noindent 
+It is also possible to define polymorphic lists:
 
 \hspace{-1cm}
 \begin{tabular}{p{8cm} p{8cm}}
@@ -148,6 +169,8 @@ list\_rec is defined
 \end{msg}
 \end{tabular}
 
+(polymorphic lists will not be used in the remainder of the tutorial 
+- it is just an example of a more complex construct that can be defined in COQ). 
 
 
 
@@ -164,7 +187,7 @@ For example, we can give the name $x$ a simple value of 4:
 \hspace{-1cm}
 \begin{tabular}{p{8cm} p{8cm}}
 \begin{code}
-Definition x := 4.
+\Definition \nm{x} := 4.
 \end{code}
 & 
 \begin{msg}
@@ -275,6 +298,46 @@ Both {\it $choose$1} and {\it $choose$1$'$} have the same functionality.
 
 \subsection{Notation} \label{subsec: notation}
 
+The command Notation is used to define a short-hand way of writing a concept we have previously defined 
+- for example, take our list definition from subsection \ref{subsec: inductive}. 
+We can then make the shorthand notation where $[\ ]$ refers to $nil$, or the empty list, and 
+$x :: xs$ refers to $(cons\ x\ xs)$, or appending some number $x$ to some list $xs$. 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Notation \str{``[ ]''} := nil. 			\\
+\Notation \str{``x :: xs''} := (cons x xs).
+\end{code}
+& 
+\begin{msg}
+Setting notation at level 0.		\\
+\end{msg}
+\end{tabular}
+
+
+\noindent
+Now we are able to write lists more simply (shown compared to the identical list using $cons$ and $nil$): 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+Compute 3::2::1::[ ].	\\
+Compute (cons 3 (cons 2 (cons 1 nil))).
+\end{code}
+& 
+\begin{msg}
+= 3 :: 2 :: 1 :: [ ] \\
+: natlist
+\end{msg}
+\end{tabular}
+
+\noindent
+This can be used to define any number of concepts that you may desire, 
+including notations for the boolean expressions for checking where some number is greater than 
+some other number (which are not natively defined, as discussed in subsection \ref{subsec: bool_expr}). 
+These notations and definitions are shown in example \ref{bool_expr}. 
+
 
 
 
@@ -288,6 +351,8 @@ Both {\it $choose$1} and {\it $choose$1$'$} have the same functionality.
 
 
 \subsection{Compute} \label{subsec: compute}
+
+The command Compute evaluates the term that follows it. 
 
 
 

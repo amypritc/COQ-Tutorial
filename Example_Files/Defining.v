@@ -27,9 +27,21 @@ Inductive day: Type :=
   | sunday : day.
 
 
+Inductive natlist: Type :=
+  | nil 
+  | cons (n:Datatypes.nat) (l:natlist).
+
+
+(* 
+  Polymorhpic definition of list.
+  Commented out as not used elsewhere.
+*)
+(*
 Inductive list (A:Set) : Set :=
   | nil : list A
-  | cons : A -> list A.
+  | cons : A -> list A -> list A.
+*)
+
 
 
 
@@ -89,7 +101,21 @@ Compute choose1' false 2 5.
 
 
 
+
+
 (* Notation *)
+
+Notation "[]" := nil. 
+
+Compute []. 
+
+Notation "x :: xs" := (cons x xs). 
+
+Compute 3::2::1::[]. 
+
+Compute (cons 3 (cons 2 (cons 1 nil))). 
+
+
 
 
 
