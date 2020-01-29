@@ -2,7 +2,7 @@
 The language of Coq is functional, and has similarities to OCaml. If you are not familiar with functional programming, this section will help introduce some basic syntax and concepts to get you started. See file ``Basics.v"
 
 \subsection{Comments} \label{subsec: comments}
-Comments in Coq are surrounded by (*  *).
+Comments in Coq are surrounded by \TT{(*  *)}.
 \begin{code}
 	\cmt{ This is a comment in Coq. }
 \end{code}
@@ -46,7 +46,7 @@ and something like this if you'd like to match over a combination of variables:
 \end{code}
 
 \noindent
-The underscore in the last option allows you to specify only the options that you care about at the top, and then for all other cases, do \blue{exprX}. The underscore is not necessary if you've listed all possible options or combinations of options as possible matches.
+The underscore in the last option allows you to specify only the options that you care about at the top, and then for all other cases, do $exprX$. The underscore is not necessary if you've listed all possible options or combinations of options as possible matches.
 
 ~\\ \noindent
 See example \ref{bool_ops} for some simple boolean functions using pattern matching.
@@ -56,7 +56,7 @@ See example \ref{bool_ops} for some simple boolean functions using pattern match
 
 
 \subsection{Lists} \label{subsec: list} 
-Coq has built in notation for lists that you can use; however, to use the notations, you must make sure to load the List library beforehand. 
+Coq has built in notation for lists that you can use; however, to use the notations, you must make sure to load the \TT{List} library beforehand. 
 \begin{code}
 	\Load List.
 \end{code}
@@ -64,7 +64,7 @@ Coq has built in notation for lists that you can use; however, to use the notati
 
 \noindent
 Lists cannot contain elements of different types. 
-If you want to have a list with different types, you must first create a new user-defined type (see defining Inductive objects, section \ref{inductive}) or use a tuple (see \ref{tuple}).
+If you want to have a list with different types, you must first create a new user-defined type (see defining \TT{Inductive} objects, section \ref{subsec: inductive}) or use a tuple (see \ref{subsec: tuple}).
 From there, you can use the following notations (general case on the left, list of numbers on the right):
 \hspace{-1cm}
 \begin{tabular}{p{8cm} p{8cm}}
@@ -82,11 +82,11 @@ From there, you can use the following notations (general case on the left, list 
 	[ 1; 2; 3; 4; 5; 6; 7; 8; 9; 0 ]
 \end{code} 
 \end{tabular}
-The empty list is always denoted as [ ]; When using the double colon appended list, you must have the empty list as the right-most element.
+The empty list is always denoted as \TT{[ ]}; When using the double colon appended list, you must have the empty list as the right-most element.
 
-
+~\\
 \noindent
-You can also define your own lists like they are defined in Coq; for example, this defines a list of nat numbers:
+You can also define your own lists like they are defined in Coq; for example, this defines a list of \TT{nat} numbers:
 \begin{code}
 \Inductive \nm{natlist} : \Type :=
   $\mid$ nil
@@ -101,28 +101,28 @@ You can also define your own lists like they are defined in Coq; for example, th
 
 ~\\ ~\\
 \noindent
-The following functions are defined in the List library; for examples of the use of most of these, please see Example \ref{list}.
+The following functions are defined in the \TT{List} library; for examples of the use of most of these, please see Example \ref{list}.
 
 \begin{tabular}{r L}
-length :	
+\TT{length} :	
 	& number of elements in list 				 \\
-head : 
+\TT{head} : 
 	& first element (with default) 				\\
-tail : 
+\TT{tail} : 
 	& all but first element						\\
-app : 
+\TT{app} : 
 	& concatenation						\\
-rev : 
+\TT{rev} : 
 	& reverse								\\
-nth : 
+\TT{nth} : 
 	& accessing n-th element (with default)		\\
-map : 
+\TT{map} : 
 	& applying a function						\\
-flat\_map : 
+\TT{flat\_map} : 
 	& applying a function returning lists			\\
-fold\_left : 
+\TT{fold\_left} : 
 	& iterator (from head to tail)				\\
-fold\_right : 
+\TT{fold\_right} : 
 	&iterator (from tail to head)
 \end{tabular}
 
@@ -146,7 +146,7 @@ A tuple is given by two or more comma separated objects enclosed in parentheses.
 
 
 \subsection{Boolean Expressions for Branches} \label{subsec: bool_expr} 
-To use boolean expressions on numbers in an if then else, make sure you've imported Arith and loaded Bool:
+To use boolean expressions on numbers in an if then else, make sure you've imported \TT{Arith} and loaded \TT{Bool}:
 \begin{code}
 	\cmd{Require Import} Arith.	\\
 	\Load Bool.
@@ -178,7 +178,7 @@ To my knowledge, there is not pre-defined notation in Coq for greater than or no
 \subsection{Option Types} \label{subsec: opt_ty}
 When using some built-in functions in Coq, you may come across option types. 
 Option types are particularly useful when you want to return an element if it is found, or be told explicitly that it does not exist.
-In other languages, you would either need to have two separate functions, one to check if it exists and one to obtain the value, or return some sort of 'neutral' value, like -1 or 0, to indicate an item wasn't found.
+In other languages, you would either need to have two separate functions, one to check if it exists and one to obtain the value, or return some sort of `neutral' value, like -1 or 0, to indicate an item wasn't found.
 Option types are defined as: 
 
 \begin{code} 
@@ -201,8 +201,8 @@ and an example of it being used:
 
 \noindent
 In this function, we are recursively going through the list to find the item at position n in the list.
-To do this, at each iteration we are checking if we have found the empty list, if so we return None; 
-otherwise we pull apart the head element of the list from the tail of the list, and if n is 0, then we return Some with that head element; 
+To do this, at each iteration we are checking if we have found the empty list, if so we return \TT{None}; 
+otherwise we pull apart the head element of the list from the tail of the list, and if n is 0, then we return \TT{Some} with that head element; 
 if n is greater than 0, then we make the recursive call on n -1 and the tail of the list. 
 The function will execute until we either find the empty list or the element at position n.
 We can then use pattern matching on the option type to obtain and use the value that was found or do something else having found that the value doesn't exist.

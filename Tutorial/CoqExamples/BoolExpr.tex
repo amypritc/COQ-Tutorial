@@ -1,5 +1,8 @@
 
-Simple example defining less than, equal to, and less than or equal to operations over numbers.
+Please see the ``bool\_expr.v'' file to follow along with this example. 
+
+\noindent 
+This is a simple example defining less than, equal to, and less than or equal to operations over numbers.
 
 \begin{code}
 	\cmd{Require Import} Arith.	\\
@@ -12,7 +15,7 @@ Simple example defining less than, equal to, and less than or equal to operation
 	\Notation \str{``n $<$ m"} := (lt n m).
 	\\ \\
 	\Definition \nm{gt} (n m : nat) : bool :=	\\ \-\ \qquad
-		  \If (m $<=?$ n)				\\ \-\ \qquad
+		  \If (m $<?$ n)					\\ \-\ \qquad
 		  \Then true					\\ \-\ \qquad
 		  \Else false.					\\
 	\Notation \str{``n $>$ m"} := (gt n m).
@@ -35,7 +38,7 @@ Simple example defining less than, equal to, and less than or equal to operation
 	\Notation \str{``n $<=$ m"} := (lteq n m).					
 	\\ \\
 	\Definition \nm{gteq} (n m : nat) : bool :=	\\ \-\ \qquad
-		  \If (m $<?$ n)					\\ \-\ \qquad
+		  \If (m $<=?$ n)				\\ \-\ \qquad
 		  \Then true					\\ \-\ \qquad
 		  \Else false.					\\
 	\Notation \str{``n $>=$ m"} := (gteq n m).

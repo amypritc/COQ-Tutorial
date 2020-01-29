@@ -1,4 +1,19 @@
 
+(* Compute *)
+
+Compute 2 + 4.
+
+Compute plus 4 2.
+
+Compute (mult 12 4) * 3.
+
+Require Import Bool.
+
+Compute true || false.
+
+Compute false && true.
+
+
 (* Inductive *)
 
 Inductive bool : Set := 
@@ -122,15 +137,32 @@ Compute (cons 3 (cons 2 (cons 1 nil))).
 
 (* Fixpoint *)
 
+Require Import Arith. 
+Require Import Bool. 
+
+Fixpoint search 
+(l : natlist) (n : Datatypes.nat) {struct l} : bool :=
+  match l with 
+   | [] => false
+   | hd::tl => 
+      if (n =? hd)
+      then true
+      else search tl n
+  end.
+
+
+Fixpoint search2 
+(n : Datatypes.nat) (l : natlist) : bool :=
+  match l with 
+   | [] => false
+   | hd::tl => 
+      if (n =? hd)
+      then true
+      else search2 n tl
+  end.
 
 
 
-(* Compute *)
 
-Compute 2 + 4.
-
-Compute plus 4 2.
-
-Compute (mult 12 4) * 3.
 
 

@@ -2,10 +2,10 @@
 Please see file ``Defining.v" to follow along with this code in the CoqIDE. 
 
 \subsection{Sorts} \label{subsec: sort}
-There are three main Sorts for defining types: {\bf Prop}, {\bf Set}, and {\bf Type}. 
+There are three main \TT{Sorts} for defining types: {\bf Prop}, {\bf Set}, and {\bf Type}. 
 \begin{itemize}
 	\item {\bf Prop}: This type is for logical propositions. 
-	\item {\bf Set}: This type is for small sets, such as booleans (bool) and natural numbers (nat). 
+	\item {\bf Set}: This type is for small sets, such as booleans (\TT{bool}) and natural numbers (\TT{nat}). 
 	\item {\bf Type}: This type can be used for small sets as well as larger sets - it encompasses both {\bf Prop} and {\bf Set}. 
 \end{itemize}
 
@@ -15,9 +15,73 @@ These are used in defining Inductive types, as shown in the next section.
 
 
 
+
+
+\subsection{Compute} \label{subsec: compute}
+
+The command \TT{Compute} evaluates the term that follows it; 
+this is particularly useful to test functions and other elements you have defined. 
+Below are a few examples using some basic arithmetic and boolean equations, 
+others are scattered throughout this tutorial to show the use of various aspects that are discussed. 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+Compute 2 + 4.		\\
+\end{code}
+& 
+\begin{msg}
+= 6				\\
+: Datatypes.nat
+\end{msg}
+\\
+\begin{code}
+Compute plus 4 2.	\\
+\end{code}
+& 
+\begin{msg}
+= 6				\\
+: Datatypes.nat
+\end{msg}
+\\
+\begin{code}
+Compute (mult 12 4) * 3.	\\
+\end{code}
+& 
+\begin{msg}
+= 144			\\
+: Datatypes.nat
+\end{msg}
+\\
+\begin{code}
+Compute true || false.		\\
+\end{code}
+& 
+\begin{msg}
+= true					\\
+: bool
+\end{msg}
+\\
+\begin{code}
+Compute false \&\& true.			\\
+\end{code}
+& 
+\begin{msg}
+= false				\\
+: bool
+\end{msg}
+\end{tabular}
+
+
+
+
+
+
+
+
 \subsection{Inductive} \label{subsec: inductive}
-The command Inductive is used to define simple inductive types and the constructors used in the type. 
-The name is placed directly after the keyword Inductive, when a colon followed by the Sort 
+The command \TT{Inductive} is used to define simple inductive types and the constructors used in the type. 
+The name is placed directly after the keyword \TT{Inductive}, when a colon followed by the \TT{Sort} 
 (discussed in the previous section) of the inductive type you are defining. 
 This is followed by $:=$ and the constructors (i.e. elements) included in that type.  
 For example, boolean values are defined in Coq as follows:
@@ -39,7 +103,7 @@ For example, boolean values are defined in Coq as follows:
 \end{tabular}
 
 \noindent
-and nat numbers are defined as:
+and \TT{nat} numbers are defined as:
 
 \hspace{-1cm}
 \begin{tabular}{p{8cm} p{8cm}}
@@ -58,7 +122,7 @@ and nat numbers are defined as:
 \end{tabular}
 
 \noindent
-You can see what all the definitions it created are by using Print:
+You can see what all the definitions it created are by using \TT{Print}:
 
 \begin{code}	\cmd{Print} nat.			\end{code}
 \begin{msg}
@@ -179,8 +243,8 @@ list\_rec is defined
 
 \subsection{Definition} \label{subsec: definition}
 
-The command Definition is used to bind an name to some term. 
-The name is always placed directly after the keyword Definition, 
+The command \TT{Definition} is used to bind an name to some term. 
+The name is always placed directly after the keyword \TT{Definition}, 
 and the term to bind to the name is given after $:=$. 
 For example, we can give the name $x$ a simple value of 4: 
 
@@ -226,8 +290,8 @@ next\_weekday is defined
 
 \noindent
 Another simple example function definition 
-(using the previous nat number inductive type definition) 
-is taking a nat number and returning that result of adding 2 to that nat number: 
+(using the previous \TT{nat} number inductive type definition) 
+is taking a \TT{nat} number and returning that result of adding 2 to that \TT{nat} number: 
 
 \hspace{-1cm}
 \begin{tabular}{p{8cm} p{8cm}}
@@ -263,9 +327,9 @@ choose1 is defined
 \end{tabular}
 
 \noindent
-We have to specify that we would like to use Datatypes.nat as our type in order to use 
+We have to specify that we would like to use \texttt{Datatypes.nat} as our type in order to use 
 natural numbers (i.e. 0, 1, 2, 3, 4, 5, 6, 7, 8, 9), as we have not specified how to interpret these 
-numbers from our definition of nat (you can do this using the Notation command 
+numbers from our definition of nat (you can do this using the \texttt{Notation} command 
 - using this command will be discussed in the following subsection \ref{subsec: notation}). 
 Alternately, we can define the same function without giving the types of the parameters 
 (however, it is always best practice to declare the types of all parameters, 
@@ -298,7 +362,7 @@ Both {\it $choose$1} and {\it $choose$1$'$} have the same functionality.
 
 \subsection{Notation} \label{subsec: notation}
 
-The command Notation is used to define a short-hand way of writing a concept we have previously defined 
+The command \texttt{Notation} is used to define a short-hand way of writing a concept we have previously defined 
 - for example, take our list definition from subsection \ref{subsec: inductive}. 
 We can then make the shorthand notation where $[\ ]$ refers to $nil$, or the empty list, and 
 $x :: xs$ refers to $(cons\ x\ xs)$, or appending some number $x$ to some list $xs$. 
@@ -345,14 +409,84 @@ These notations and definitions are shown in example \ref{bool_expr}.
 
 \subsection{Fixpoint} \label{subsec: fixpoint}
 
+The command \texttt{Fixpoint} is used to define recursive functions using a fixed point construction. 
+These functions use pattern matching over inductive objects, and must have a decreasing argument to 
+ensure termination. 
+The decreasing argument is best understood through examples, but can be thought of as the object that 
+is controlling the recursion (and, if using a \texttt{match $x$ with ... end} statement, is likely $x$). 
+It is best practice to explicitly declare the decreasing argument in the function definition using 
+\texttt{\{ struct id \}}, though it can be left implicit. 
+Coq will give an error if there is an issue with the decreasing argument of a \texttt{Fixpoint} definition.
+
+
+~\\
+The following function $search$ recursively searches the given list $l$ to see if it contains the number $n$, 
+and returns a \TT{bool} (i.e., \TT{true} or \TT{false}). 
+Here, as shown in the function definition and the messages, the decreasing argument is the first argument, $l$. 
+This function first checks to see if the list $l$ is empty, returning \texttt{false} if it is. 
+Otherwise, the function will break $l$ into the first (i.e., head) element $hd$ and the remaining (i.e., tail) list; 
+then check to see if $hd$ is equal to $n$, returning \texttt{true} if this holds, 
+if not, it will recursively call itself to check the remaining list $tl$ to see if $n$ is present. 
+
+\hspace{-1cm}
+\begin{tabular}{p{9.5cm} p{6.5cm}}
+\begin{code}
+\Fixpoint \nm{search} 							\\
+(l : natlist) (n : Datatypes.nat) \{ struct l\} : bool :=		\\ \-\ \quad
+  \match l \with 									\\ \-\ \qquad
+   $\mid$ [\ ] $=>$ false 							\\ \-\ \qquad
+   $\mid$ hd::tl $=>$  							\\ \-\ \qquad\qquad
+      \If (n $=?$ hd) 								\\ \-\ \qquad\qquad
+      \Then true 									\\ \-\ \qquad\qquad
+      \Else search tl n 								\\ \-\ \quad
+  \End.
+\end{code}
+& 
+\begin{msg}
+search is defined		\\
+search is recursively defined (decreasing on 1st argument)
+\end{msg}
+\end{tabular}
+
+\noindent
+The following is essentially the same function, with the order of arguments switched 
+and the decreasing argument left implicit. 
+Coq will still recognize that the $l$ is the decreasing argument. 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Fixpoint \nm{search2} 					\\
+(n : Datatypes.nat) (l : natlist) : bool :=		\\ \-\ \quad
+  \match l \with 							\\ \-\ \qquad
+   $\mid$ [\ ] $=>$ false 					\\ \-\ \qquad
+   $\mid$ hd::tl $=>$  					\\ \-\ \qquad\qquad
+      \If (n $=?$ hd) 						\\ \-\ \qquad\qquad
+      \Then true 							\\ \-\ \qquad\qquad
+      \Else search2 n tl						\\ \-\ \quad
+  \End.
+\end{code}
+& 
+\begin{msg}
+search2 is defined		\\
+search2 is recursively defined (decreasing on 2nd argument)
+\end{msg}
+\end{tabular}
 
 
 
 
 
-\subsection{Compute} \label{subsec: compute}
 
-The command Compute evaluates the term that follows it. 
+
+
+
+
+
+
+
+
+
 
 
 
