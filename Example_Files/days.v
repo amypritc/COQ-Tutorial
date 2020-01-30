@@ -62,7 +62,7 @@ Definition daily_schedule (d:day) : activity * sport :=
   end.
 
 
-Compute schedule friday.
+Compute daily_schedule friday.
 
 
 

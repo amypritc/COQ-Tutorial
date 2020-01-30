@@ -1,5 +1,8 @@
 
-A simple example to demonstrate some uses of the built-in lists and list functions, and define a search function for lists of nat numbers. To use the notations and functions, you'll want to load List and open the list\_scope so everything works properly.
+Please see file ``list\_ex.v'' to follow along with this example. 
+
+~\\
+A simple example to demonstrate some uses of the built-in lists and list functions, and define a search function for lists of nat numbers. To use the notations and functions, you'll want to load \TT{List} and open the list\_scope so everything works properly.
 
 \begin{code}
 	\cmd{Require Import} \nm{Arith}.				\\
@@ -52,14 +55,14 @@ Uses of the list functions and results:
 \begin{code}	Compute rev [9;7;5;3;1].			\end{code}
 &
 \begin{msg}	= [1; 3; 5; 7; 9]     : Datatypes.list nat	\end{msg}
-\\
-\begin{code}	Compute nth 0 [2;5;7;9].			\end{code}	
-&
-\begin{msg}	= fun \_ : nat $=>$ 2     : nat $->$ nat	\end{msg}
 \end{tabular}
 
 \hspace{-1cm}
 \begin{tabular}{p{8cm} p{8cm}}
+\begin{code}	Compute nth 0 [2;5;7;9].			\end{code}	
+&
+\begin{msg}	= fun \_ : nat $=>$ 2     : nat $->$ nat	\end{msg}
+\\
 \begin{code}	Compute nth 4 [2;5;7;9].			
 			\\ \cmt{Not found} 				\end{code}
 &
