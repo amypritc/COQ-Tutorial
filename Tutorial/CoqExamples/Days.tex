@@ -1,7 +1,10 @@
 
-This example ...
-\\~\\
+Please see file ``days.v'' to follow along with this example. 
 
+~\\
+This example is fairly simple, giving some basic definitions and functions, and showing a use of a tuple in Coq.  
+
+~\\
 \noindent
 First, we define what a day is using the following definition:
 
@@ -46,6 +49,61 @@ We can perform some simple computations to check the correctness of our function
 \end{tabular}
 
 \noindent
+To make this a bit more interesting, we can also define some other things, such as sports:
+
+\begin{code}
+\Inductive \nm{sport}: \Type :=		\\ \-\ \quad
+  $\mid$ tennis : sport			\\ \-\ \quad
+  $\mid$ basketball : sport			\\ \-\ \quad
+  $\mid$ baseball : sport 			\\ \-\ \quad
+  $\mid$ cricket : sport			\\ \-\ \quad
+  $\mid$ football : sport			\\ \-\ \quad
+  $\mid$ dance : sport			\\ \-\ \quad
+  $\mid$ gymnastics : sport		\\ \-\ \quad
+  $\mid$ run : sport				\\ \-\ \quad
+  $\mid$ rugby : sport			\\ \-\ \quad
+  $\mid$ weights : sport			\\ \-\ \quad
+  $\mid$ swim : sport.
+\end{code}
+
+and activities: 
+
+\begin{code}
+\Inductive \nm{activity}: \Type :=	\\ \-\ \quad
+  $\mid$ class : activity			\\ \-\ \quad
+  $\mid$ lab : activity				\\ \-\ \quad
+  $\mid$ meeting : activity			\\ \-\ \quad
+  $\mid$ seminar : activity			\\ \-\ \quad
+  $\mid$ volunteer : activity		\\ \-\ \quad
+  $\mid$ club : activity			\\ \-\ \quad
+  $\mid$ work : activity.	
+\end{code}
+
+\noindent
+Now, it is possible to create a function that returns a schedule for each day, 
+consisting of a tuple of an activity and a sport. 
+
+\begin{code}
+\Definition \nm{daily\_schedule} (d:day): activity * sport :=		\\ \-\ \quad
+  \match d \with										\\ \-\ \qquad
+   $\mid$ monday $=>$ (meeting, run)					\\ \-\ \qquad
+   $\mid$ tuesday $=>$ (class, tennis)					\\ \-\ \qquad
+   $\mid$ wednesday $=>$ (seminar, baseball)				\\ \-\ \qquad
+   $\mid$ thursday $=>$ (class, rugby)					\\ \-\ \qquad
+   $\mid$ friday $=>$ (lab, dance)						\\ \-\ \qquad
+   $\mid$ saturday $=>$ (club, swim)						\\ \-\ \qquad
+   $\mid$ sunday $=>$ (volunteer, basketball)				\\ \-\ \quad
+  \End.	
+\end{code}
+
+\noindent
+Of course, it is also possible to create more complex schedules, but this 
+should give you an the basic idea of how to do that. 
+
+
+% BEGIN  COMMENT
+\begin{comment}
+\noindent
 We can also do a simple proof to check that the results are as expected.
 
 \hspace{-1cm}
@@ -63,9 +121,8 @@ We can also do a simple proof to check that the results are as expected.
 next\_weekday (next\_weekday saturday) = tuesday
 \end{msg}
 \end{tabular}
-
-
-
+\end{comment}
+% END  COMMENT
 
 
 

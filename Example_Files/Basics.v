@@ -41,6 +41,9 @@ Check cons 1 nil.
 
 Check cons (1) (cons 2 nil).
 
+Compute [1]++[2]. 
+
+Compute app [1] [2; 3].
 
 
 (* Tuples *)

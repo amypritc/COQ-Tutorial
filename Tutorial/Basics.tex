@@ -85,6 +85,30 @@ From there, you can use the following notations (general case on the left, list 
 The empty list is always denoted as \TT{[ ]}; When using the double colon appended list, you must have the empty list as the right-most element.
 
 ~\\
+You can concatenate two lists (i.e., \TT{l1, l2}) using \TT{l1 ++ l2} or \TT{app l1 l2}. For example, 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+Compute $[1]++[2]$.
+\end{code}
+& 
+\begin{msg}
+= [1; 2]
+: Datatypes.list nat
+\end{msg}
+\\
+\begin{code}
+Compute app $[1]\ [2; 3]$.
+\end{code}
+& 
+\begin{msg}
+= [1; 2; 3]
+: Datatypes.list nat
+\end{msg}
+\end{tabular}
+
+~\\
 \noindent
 You can also define your own lists like they are defined in Coq; for example, this defines a list of \TT{nat} numbers:
 \begin{code}
@@ -146,7 +170,7 @@ A tuple is given by two or more comma separated objects enclosed in parentheses.
 
 
 \subsection{Boolean Expressions for Branches} \label{subsec: bool_expr} 
-To use boolean expressions on numbers in an if then else, make sure you've imported \TT{Arith} and loaded \TT{Bool}:
+To use boolean expressions on numbers in an \TT{if ... then ... else ...}, make sure you've imported \TT{Arith} and loaded \TT{Bool}:
 \begin{code}
 	\cmd{Require Import} Arith.	\\
 	\Load Bool.
