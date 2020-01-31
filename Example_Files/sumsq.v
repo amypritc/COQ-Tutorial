@@ -1,12 +1,12 @@
 Require Import ZArith Arith.
 Load Arith.
 
-
 Fixpoint sumsq (n: nat) : nat := 
 match n with
 | O => 0
 | S p => (n * n) + (sumsq p)
 end.
+
 
 
 Require FunInd.

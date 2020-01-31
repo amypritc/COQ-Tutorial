@@ -1,53 +1,200 @@
 
-\paragraph{File}
+\paragraph{\underline{File}}
+~\\
+\TT{New} : Open a new blank scratch buffer (for writing definitions and proving in Coq)
+\\
+\TT{Open} : Open a file stored in memory
+\\
+\TT{Save} : Save your current file. Functions as \TT{Save as} when used on an unsaved scratch buffer. 
+\\ 
+\TT{Save as} : Opens a pop-up window to choose where to save the current buffer and give it a name. 
+\\
+\TT{Revert all buffers} : ? % Seems to have no effect when clicked.
+\\
+\TT{Close buffer} : Close the current buffer. Will give a warning if you have unsaved changes. 
+\\
+\TT{Print} : Shows you the command to use in the command line to print the current buffer file. 
+\\
+\TT{Export to} : Allows you to export the current file as a file of a different type. 
+	\\ \-\ \qquad Options: Html, LaTeX, Dvi, Pdf, Ps
+\\
+\TT{Rehighlight} : ? % Seems to have no effect when clicked.
+\\
+\TT{Quit} : Close the CoqIDE. Will give a warning if there are unsaved changes. 
 
 
-~\\~\\
-\begin{tabular}{l l}
-\TT{File}
-&
-	
+
+
+
+~\\
+\paragraph{\underline{Edit}}
+~\\
+\TT{Undo} : Undo last typing action
 \\
-\TT{Edit}
-&
-	
+\TT{Redo} : Redo last typing action removed by \TT{Undo}
 \\
-\TT{View}
-&
-	
+\TT{Cut} : Cut text. Can be pasted into other programs. 
 \\
-\TT{Navigation}
-&
-	
+\TT{Copy} : Copy text. Can be pasted into other programs.
+\\ 
+\TT{Paste} : Paste copied text. Works with text copied from other programs, but can lose characters (i.e., \_)
 \\
-\TT{Tactics}
-&
-	
+\TT{Find / Replace} : Opens a window to find text (and replace if desired). 
+	Can be detached to be in its own window separate from the main CoqIDE. 
 \\
-\TT{Templates}
-&
-	
+\TT{Find Next} : ? 
 \\
-\TT{Queries}
-&
-	
+\TT{Find Previous} : ? 
 \\
-\TT{Tools}
-&
-	
+\TT{External editor} : Looks for and attempts to load a \TT{.aux} file of the same name as the current buffer. 
+	Prints results in \TT{Message} window. 
 \\
-\TT{Compile}
-&
-	
+\TT{Preferences} : Pop up window to modify your preferences for the CoqIDE 
+(i.e., customize font, font size, editor configurations, colors, etc.)
+
+
+
+
+
+~\\
+\paragraph{\underline{View}}
+~\\
+\TT{Previous tab} : 
 \\
-\TT{Windows}
-&
-	
+\TT{Next tab} : 
 \\
-\TT{Help}
-&
+\TT{Zoom in} : 
+\\
+\TT{Zoom out} : 
+\\
+\TT{Zoom fit} : 
+\\
+\TT{Show Toolbar} : 
+\\
+\TT{Query Pane} : 
+\\
+\TT{Display implicit arguments} : 
+\\
+\TT{Display coercions} : 
+\\
+\TT{Display raw matching expressions} : 
+\\
+\TT{Display notations} : 
+\\
+\TT{Display all basic low-level contents} : 
+\\
+\TT{Display existential variable instances} : 
+\\
+\TT{Display universe levels} : 
+\\
+\TT{Display all low-level contents} : 
+\\
+\TT{Display unfocused goals} : 
+\\
+\TT{Don't show diffs}, \TT{Show diffs:only added}, \TT{Show diffs:added and removed} : Choices for displaying diffs (must choose from one of the three)
+
 	
-\end{tabular}
+	
+	
+~\\
+\paragraph{\underline{Navigation}}
+~\\
+Note: these are like their toolbar button equivalents. 
+Please see the subsection \ref{subsec: toolbar} for further descriptions given there. 
+\\
+\TT{Forward} : Forward one command. 
+\\ 
+\TT{Backward} : Backward one command. 
+\\
+\TT{Go to} : Go to cursor. 
+\\
+\TT{Start} : Restart Coq. 
+\\
+\TT{End} : Go to end. 
+\\
+\TT{Interrupt} : Interrupt computations. 
+\\
+\TT{Previous} : Previous Occurrence. 
+\\
+\TT{Next} : Next Occurrence. 
+
+
+
+
+	
+~\\
+\paragraph{\underline{Tactics}}
+~\\
+
+
+
+
+	
+~\\
+\paragraph{\underline{Templates}}
+~\\
+
+
+
+
+	
+~\\
+\paragraph{\underline{Queries}}
+~\\
+These are described and have examples of their use in section \ref{Sec: queries}. 
+\\
+\TT{Search} : See subsection \ref{search}. 
+\\
+\TT{Check} : See subsection \ref{check}. 
+\\
+\TT{Print} : See subsection \ref{print}. 
+\\
+\TT{About} : See subsection \ref{about}. 
+\\
+\TT{Locate} : See subsection \ref{locate}. 
+\\
+\TT{Print Assumptions} : See subsection \ref{print_assumptions}. 
+
+
+
+	
+~\\
+\paragraph{\underline{Tools}}
+~\\
+
+
+
+
+	
+~\\
+\paragraph{\underline{Compile}}
+~\\
+
+
+
+
+	
+~\\
+\paragraph{\underline{Windows}}
+~\\
+
+
+
+
+
+	
+~\\
+\paragraph{\underline{Help}}
+~\\
+\TT{Browse Coq Manual} : Opens \url{https://coq.inria.fr/distrib/V8.10.2/refman/}
+\\ 
+\TT{Browse Coq Library} : Opens \url{https://coq.inria.fr/distrib/V8.10.2/stdlib/}
+\\
+\TT{Help for keyword} : ? % nothing seems to happen
+\\
+\TT{Help for $\mu$PG mode} : Prints out help for this mode (for use with Emacs, I believe) in the \TT{Message} window.
+\\ 
+\TT{About} : Pop-up window giving info about current CoqIDE.
 
 
 
