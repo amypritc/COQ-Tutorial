@@ -122,7 +122,7 @@ Compute choose1' false 2 5.
 
 Notation "[]" := nil. 
 
-Compute []. 
+Compute [].
 
 Notation "x :: xs" := (cons x xs). 
 
