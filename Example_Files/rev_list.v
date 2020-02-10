@@ -34,19 +34,20 @@ Print app_nil_r.
 
 Lemma list_assoc : 
 forall (xs ys zs : Datatypes.list nat),
-(xs ++ ys) ++ zs = xs ++ ys ++ zs.
+(xs ++ ys) ++ zs = xs ++ (ys ++ zs).
 Proof.
 intros xs ys zs.
 induction xs.
 - auto.
 - simpl.
-  rewrite -> IHxs.
+  rewrite <- IHxs.
   auto.
 Qed.
 
 (*
 Print app_assoc.
 *)
+
 
 Lemma rev_list : 
 forall (xs ys : Datatypes.list nat),
@@ -59,8 +60,7 @@ induction xs.
   reflexivity.
 - simpl. 
   rewrite -> IHxs.
-  rewrite -> list_assoc.
-  auto.
+  apply list_assoc.
 Qed.
 
 (*

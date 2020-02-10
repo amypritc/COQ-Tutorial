@@ -2,14 +2,730 @@
 See Coq file ``rev\_list.v'' to follow along with this example. 
 
 
+~\\
+In this example, we want to prove that the reverse of the reverse of a list is the original list 
+(i.e., \TT{rev (rev xs) = xs}). 
+In order to do this, we must first prove a few supplementary lemmas in order to obtain 
+our original goal. 
+First, in order to use list notations, we must either define them, or use the command 
+\TT{\Load List.}:
+
+\hspace{-1cm}
+\begin{tabular}{l}\begin{code}		\Load List.			\end{code}\end{tabular}
+
+~\\
+Then we start with defining \TT{list\_nil}, a lemma to show that a list \TT{xs} appended to 
+nil (i.e., the empty list \TT{[ ]}) is \TT{xs}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Lemma \nm{list\_nil} : 			\\
+\Forall (xs : Datatypes.list nat),		\\
+xs ++ [ ] = xs.	
+\end{code}
+&
+\begin{goal}
+1 subgoal	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+\Forall xs : Datatypes.list nat, 		
+xs ++ [\ ] = xs
+\end{goal}
+\end{tabular}
+
+\noindent
+Next, we open the proof environment using the command \TT{\Proof.}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Proof.
+\end{code}
+&
+\begin{goal}
+1 subgoal	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+\Forall xs : Datatypes.list nat, 		
+xs ++ [\ ] = xs
+\end{goal}
+\end{tabular}
 
 
+\noindent
+Then we introduce the variable we using for our list, \TT{xs}, using \TT{intros xs.}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+intros xs.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+xs : Datatypes.list nat											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+xs ++ [\ ] = xs
+\end{goal}
+\end{tabular}
+
+\noindent
+Next, we can use induction on the variable \TT{xs} to leverage the inductive nature of the list type 
+and split our main goal into two subgoals: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+induction xs.
+\end{code}
+&
+\begin{goal}
+2 subgoals													\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/2)	\\
+$[\ ] ++ [\ ] = [\ ]$												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/2)	\\
+(a :: xs) $++$ [\ ] = a :: xs
+\end{goal}
+\end{tabular}
+
+\noindent
+Now, we enter into the first subgoal using \TT{-}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+$[\ ] ++ [\ ] = [\ ]$												\\
+															\\
+Unfocused Goals:												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_		\\
+(a :: xs) ++ [\ ] = a :: xs											\\
+\end{goal}
+\end{tabular}
+
+\noindent
+We can use the tactic \TT{auto} to solve this subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- auto. 
+\end{code}
+&
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_		\\
+(a :: xs) ++ [\ ] = a :: xs									
+\end{goal}
+\end{tabular}
 
 
+\noindent
+Now, we enter into the second subgoal using \TT{-}:
 
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs : Datatypes.list nat											\\
+IHxs : xs ++ [\ ] = xs												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+(a :: xs) ++ [\ ] = a :: xs	
+\end{goal}
+\end{tabular}
 
+\noindent
+For this subgoal, we want to be able to use the inductive hypothesis, and to do that 
+we can use the tactic \TT{simpl} to remove the parentheses around \TT{a :: xs}: 
 
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- simpl.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs : Datatypes.list nat											\\
+IHxs : xs ++ [\ ] = xs												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+a :: xs ++ [\ ] = a :: xs	
+\end{goal}
+\end{tabular}
 
+\noindent
+Now we can use the tactic \TT{rewrite ->} to use the inductive hypothesis to rewrite 
+\TT{xs ++ [\ ]} to \TT{xs} on the left-hand side: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite $->$ IHxs.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs : Datatypes.list nat											\\
+IHxs : xs ++ [\ ] = xs												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+a :: xs = a :: xs	
+\end{goal}
+\end{tabular}
+
+\noindent
+We can then use the tactic \TT{auto} to finish this subgoal: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code} 
+auto. 
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent
+Finally, we finish up the proof of \TT{list\_nil} with the proof completion command, \TT{\Qed.}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code} 
+\Qed. 
+\end{code}
+&
+\begin{msg}
+list\_nil is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+Next, we need to define a lemma for list associativity, \TT{list\_assoc}:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Lemma \nm{list\_assoc} : 				\\
+\Forall (xs ys zs : Datatypes.list nat),			\\
+(xs ++ ys) ++ zs = xs ++ (ys ++ zs).
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+forall xs ys zs : Datatypes.list nat,									\\
+(xs ++ ys) ++ zs = xs ++ ys ++ zs
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we enter the proof environment, and introduce our local variables:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Proof. 			\\
+intros xs ys zs. 	
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+xs, ys, zs : Datatypes.list nat										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+(xs ++ ys) ++ zs = xs ++ ys ++ zs
+\end{goal}
+\end{tabular}
+
+\noindent
+We then specify we would like to complete the proof by using induction on list \TT{xs}:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+induction xs.
+\end{code}
+&
+\begin{goal}
+2 subgoals
+ys, zs : Datatypes.list nat											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/2)	\\
+([\ ] ++ ys) ++ zs = [\ ] ++ ys ++ zs									\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/2)	\\
+((a :: xs) ++ ys) ++ zs = (a :: xs) ++ ys ++ zs
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we can enter into the first subgoal, and complete the proof of this subgoal by simply 
+using the tactic \TT{auto}:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+- auto.
+\end{code}
+&
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+((a :: xs) ++ ys) ++ zs = (a :: xs) ++ ys ++ zs
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we can enter into the second subgoal, and view our inductive hypothesis:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+- 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs, ys, zs : Datatypes.list nat										\\
+IHxs : (xs ++ ys) ++ zs =   xs ++ ys ++ zs								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+((a :: xs) ++ ys) ++ zs = (a :: xs) ++ ys ++ zs
+\end{goal}
+\end{tabular}
+
+\noindent
+We can use the tactic \TT{simpl} to simplify our subgoal, removing some of the layers of parentheses:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+- simpl.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs, ys, zs : Datatypes.list nat										\\
+IHxs : (xs ++ ys) ++ zs =   xs ++ ys ++ zs								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+a :: (xs ++ ys) ++ zs = a :: xs ++ ys ++ zs
+\end{goal}
+\end{tabular}
+
+\noindent
+Now we can use the \TT{rewrite} tactic to further our proof by using the inductive hypothesis. 
+As you can see above, in the right-hand side of our subgoal, 
+we have the term sequence matching that of the right-hand side of the inductive hypothesis, 
+and likewise with on left-hand sides of the subgoal and inductive hypothesis. 
+In the last proof, we used \TT{->}, so this time we will use \TT{<-} with \TT{rewrite} to 
+illustrate the difference:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+rewrite $<-$ IHxs.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs, ys, zs : Datatypes.list nat										\\
+IHxs : (xs ++ ys) ++ zs = xs ++ ys ++ zs								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+a :: (xs ++ ys) ++ zs = a :: (xs ++ ys) ++ zs
+\end{goal}
+\end{tabular}
+
+\noindent
+Now we are left with identical left- and right-hand sides of the subgoal. 
+From here, we can finish the proof of this subgoal using the tactic \TT{auto}:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+auto.
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent
+Finally, we finish up the proof of \TT{list\_assoc} with the proof completion command, \TT{\Qed.}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Qed. 
+\end{code}
+&
+\begin{msg}
+list\_assoc is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+We now progress on to the lemma (\TT{rev\_list}) for proving that the reverse of two lists appended together 
+(i.e., \TT{xs} appended to \TT{ys}) is equivalent to the reverse of the second list (\TT{ys}) 
+appended to the reverse of the first list (\TT{xs}).
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Lemma \nm{rev\_list} : 				\\
+\Forall (xs ys : Datatypes.list nat),		\\
+rev (xs ++ ys) = (rev ys) ++ (rev xs).
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+forall xs ys : Datatypes.list nat,										\\
+rev (xs ++ ys) = rev ys ++ rev xs					
+\end{goal}
+\end{tabular}
+
+\noindent
+As before, we enter the proof environment, and introduce our local variables:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Proof. 			\\
+intros xs ys. 	
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+xs, ys : Datatypes.list nat											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev (xs ++ ys) = rev ys ++ rev xs
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we declare we want to solve the proof by induction over \TT{xs}:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+induction xs. 	
+\end{code}
+&
+\begin{goal}
+2 subgoals													\\
+ys : Datatypes.list nat											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/2)	\\
+rev ([\ ] ++ ys) = rev ys ++ rev [\ ]									\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/2)	\\
+rev ((a :: xs) ++ ys) = rev ys ++ rev (a :: xs)
+\end{goal}
+\end{tabular}
+
+\noindent
+Next, we enter into the first subgoal, an we can use \TT{simpl} to simplify the subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+- simpl. 	
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+ys : Datatypes.list nat											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev ys = rev ys ++ [\ ]												\\
+															\\
+Unfocused Goals:												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_		\\
+rev ((a :: xs) ++ ys) = rev ys ++ rev (a :: xs)
+\end{goal}
+\end{tabular}
+
+\noindent
+We are now able to use the \TT{rewrite} tactic with our first lemma \TT{list\_nil} to further the proof:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+rewrite $->$ list\_nil. 	
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+ys : Datatypes.list nat											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev ys = rev ys 													\\
+															\\
+Unfocused Goals:												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_		\\
+rev ((a :: xs) ++ ys) = rev ys ++ rev (a :: xs)
+\end{goal}
+\end{tabular}
+
+\noindent
+Since both sides of our subgoal equation are equal, we can use the tactic \TT{reflexivity} 
+to complete this subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+reflexivity. 	
+\end{code}
+&
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev ((a :: xs) ++ ys) = rev ys ++ rev (a :: xs)
+\end{goal}
+\end{tabular}
+
+\noindent
+We then enter the second subgoal, and attempt to use the tactic \TT{simpl} to 
+obtain a set of terms in the subgoal that will match the inductive hypothesis: 
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+- simpl. 	
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs, ys : Datatypes.list nat											\\
+IHxs : rev (xs ++ ys) =  rev ys ++ rev xs								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev (xs ++ ys) ++ [a] = rev ys ++ rev xs ++ [a]
+\end{goal}
+\end{tabular}
+
+\noindent
+The use of tactic \TT{simpl} succeeded in obtaining \TT{rev (xs ++ ys)} as a subset 
+of the terms on the left-hand side of the equation, so we can now use the tactic 
+\TT{rewrite} with the inductive hypothesis to convert this subset of terms to 
+\TT{ev ys ++ rev xs}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{6.5cm} p{9.5cm}}
+\begin{code} 
+rewrite $->$ IHxs. 	
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs, ys : Datatypes.list nat											\\
+IHxs : rev (xs ++ ys) =  rev ys ++ rev xs								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+(rev ys ++ rev xs) ++ [a] = rev ys ++ rev xs ++ [a]
+\end{goal}
+\end{tabular}
+
+\noindent 
+We can now use the tactic \TT{apply} to apply the \TT{list\_assoc} lemma we defined 
+previously on our currently subgoal: 
+
+\hspace{-1cm}
+\begin{tabular}{p{6.5cm} p{9.5cm}}
+\begin{code} 
+apply list\_assoc. 	
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent
+Since we have proved both of our subgoals, we can now close out the proof with 
+the command \TT{\Qed.}:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Qed. 	
+\end{code}
+&
+\begin{msg}
+rev\_list is defined
+\end{msg}
+\end{tabular}
+
+\noindent
+Finally, we can come back to our main lemma that the reverse of the reverse of a list 
+is itself, \TT{rev\_rev}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Lemma \nm{rev\_rev} : 			\\
+\Forall (xs : Datatypes.list nat),	\\
+rev (rev xs) = xs.		
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+\Forall xs : Datatypes.list nat,										\\
+rev (rev xs) = xs
+\end{goal}
+\end{tabular}
+
+\noindent
+As before, we enter the proof environment, and introduce our local variable:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Proof. 			\\
+intros xs. 	
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+xs : Datatypes.list nat											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev (rev xs) = xs
+\end{goal}
+\end{tabular}
+
+\noindent
+Here we will again use induction on list \TT{xs}:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+induction xs. 
+\end{code}
+&
+\begin{goal}
+2 subgoals													\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/2)	\\
+rev (rev [\ ]) = [\ ]												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/2)	\\
+rev (rev (a :: xs)) = a :: xs
+\end{goal}
+\end{tabular}
+
+\noindent
+We enter the first subgoal, and attempt to use the tactic \TT{auto} to complete the proof:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+- auto. 
+\end{code}
+&
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev (rev (a :: xs)) = a :: xs
+\end{goal}
+\end{tabular}
+
+\noindent
+Since \TT{auto} has completed this subgoal, we now move to the second subgoal. 
+We first use the tactic \TT{simpl} to try to obtain either the inductive hypothesis, 
+or a subset of terms as in one of the lemmas we have previously defined: 
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+- simpl. 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs : Datatypes.list nat											\\
+IHxs : rev (rev xs) = xs											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev (rev xs ++ [a]) = a :: xs
+\end{goal}
+\end{tabular}
+
+\noindent
+This has left us at a point where we have the reverse of two lists appended to 
+each other (i.e., \TT{rev xs} and \TT{[a]}), so we can now use the tactic 
+\TT{rewrite} with out previous lemma \TT{rev\_list}:  
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+rewrite $->$ rev\_list. 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs : Datatypes.list nat											\\
+IHxs : rev (rev xs) = xs											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev [a] ++ rev (rev xs) = a :: xs
+\end{goal}
+\end{tabular}
+
+\noindent
+Now we can see that we have the left-hand side of the inductive hypothesis as 
+sub-terms in the left-hand side of the subgoal, so we can now use the tactic 
+\TT{rewrite} with the inductive hypothesis: 
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+rewrite $->$ IHxs. 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+a : nat														\\
+xs : Datatypes.list nat											\\
+IHxs : rev (rev xs) = xs											\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+rev [a] ++ xs = a :: xs
+\end{goal}
+\end{tabular}
+
+\noindent
+We will now attempt to complete the proof of this subgoal using the tactic \TT{auto}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+auto. 
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent 
+Since this has succeeded in proving our final subgoal, we can now finish our proof:
+
+\hspace{-1cm}
+\begin{tabular}{p{7cm} p{9cm}}
+\begin{code} 
+\Qed. 
+\end{code}
+&
+\begin{msg}
+rev\_rev is defined
+\end{msg}
+\end{tabular}
 
 
 
