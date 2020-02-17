@@ -1,0 +1,35 @@
+
+See file ``factorial.v'' to follow along. 
+
+~\\
+For the factorial function (i.e., \TT{fact n} or \TT{n!} for short), \TT{0!} should return \TT{1}, 
+and all other positive numbers should return the result of the multiplication of the given number 
+\TT{n} with all numbers from \TT{1, ..., n-1}. 
+To write this recursively, we can say \TT{fact n = n * fact (n -1)}. 
+The factorial function does not work with negative numbers 
+-- therefore, we can use \TT{nat} numbers to ensure we are only able to use it on numbers \TT{$>= 0$}. 
+Here, we first load the \TT{Arith} library to use \TT{nat} numbers and give the definition of factorial. 
+Because Coq defines \TT{nat} numbers as being \TT{O $\mid$ S \_}, we can leverage pattern matching to 
+get the following definition: 
+
+\begin{code}
+	\Load \nm{Arith}.
+	\\ \\
+	\Fixpoint \nm{fact} (n:nat) := 				\\ \-\ \quad
+ 		\match n \with 						\\ \-\ \qquad
+  			$\mid$ O $=>$ 1				\\ \-\ \qquad
+    			$\mid$ S m $=>$ n * fact(m)		\\ \-\ \quad
+  		\End.
+\end{code}
+
+\noindent
+Here, we are matching \TT{n} with either \TT{O} or \TT{S m}, where \TT{m = n-1}, 
+which allows us to state that in the case of \TT{n == S m}, we need to perform \TT{n * fact(m)}. 
+
+
+
+
+
+
+
+

@@ -1,0 +1,367 @@
+
+Please see file ``days.v'' to follow along with this example. 
+
+~\\
+This example is fairly simple, giving some basic proofs Coq. 
+Please see Example \ref{days} for the more on the definitions these proofs rely on. 
+
+\begin{code}
+\Definition \nm{next\_weekday} (d:day): day :=		\\ \-\ \quad
+  \match d \with								\\ \-\ \qquad
+   $\mid$ monday $=>$ tuesday					\\ \-\ \qquad
+   $\mid$ tuesday $=>$ wednesday				\\ \-\ \qquad
+   $\mid$ wednesday $=>$ thursday				\\ \-\ \qquad
+   $\mid$ thursday $=>$ friday					\\ \-\ \qquad
+   $\mid$ friday $=>$ monday					\\ \-\ \qquad
+   $\mid$ saturday $=>$ monday				\\ \-\ \qquad
+   $\mid$ sunday $=>$ monday					\\ \-\ \quad
+  \End.
+\end{code}
+
+% PROOF 1
+\noindent
+We can do a simple proof to check that the results are as expected.
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+	\Example \nm{test\_next\_weekday}:			\\ \-\ \quad
+	  (next\_weekday (next\_weekday saturday)) 	\\ \-\ \qquad
+	  	= tuesday.							\\
+	\Proof.
+\end{code}
+&
+\begin{goal}
+1 subgoal			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+next\_weekday (next\_weekday saturday) = tuesday
+\end{goal}
+\end{tabular}
+
+\noindent 
+First, we can apply tactic \TT{simpl} to evaluate the uses of the \TT{next\_weekday} function: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+simpl.
+\end{code}
+&
+\begin{goal}
+1 subgoal			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+tuesday = tuesday
+\end{goal}
+\end{tabular}
+
+\noindent 
+We can then use the tactic \TT{reflexivity} to show that \TT{tuesday} is equal to \TT{tuesday}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+reflexivity.
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent 
+Finally, we finish our proof with the command \TT{\Qed}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Qed. 
+\end{code}
+&
+\begin{msg}
+test\_next\_weekday is defined
+\end{msg}
+\end{tabular}
+
+
+
+% PROOF 2
+\noindent 
+We can also do a simple proof to show something will not be true, like that 
+\TT{next\_weekday monday} is not \TT{friday} ($<>$ is used to say that two terms are not equal): 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Example \nm{next\_weekday\_monday\_friday}: \\ \-\ \quad 
+  next\_weekday monday $<>$ friday. 		\\
+\Proof. 
+\end{code}
+&
+\begin{msg}
+1 subgoal				\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+next\_weekday monday $<>$ friday		
+\end{msg}
+\end{tabular}
+
+\noindent 
+This proof can be solved with a single tactic, \TT{discriminate}, which can be used to prove that two elements of an inductive type are different from each other: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+discriminate. 
+\end{code}
+&
+\begin{msg}
+No more subgoals.
+\end{msg}
+\end{tabular}
+
+\noindent 
+Again, we finish our proof with the command \TT{\Qed}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Qed. 
+\end{code}
+&
+\begin{msg}
+next\_weekday\_monday\_friday is defined
+\end{msg}
+\end{tabular}
+
+
+
+% PROOF 3
+\noindent
+We can also prove more general things, such as that \TT{sunday} is not the next weekday for any given day \TT{d}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Example \nm{next\_weekday\_is\_not\_sunday}: 		\\
+\Forall (d:day), next\_weekday d $<>$ sunday.		\\
+\Proof. 
+\end{code}
+&
+\begin{goal}
+1 subgoal				\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+\Forall d : day, next\_weekday d $<>$ sunday
+\end{goal}
+\end{tabular}
+
+\noindent
+Since we are using the variable \TT{d}, we need to introduce it into the proof environment: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+intros d. 
+\end{code}
+&
+\begin{goal}
+1 subgoal				\\
+d : day				\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+next\_weekday d $<>$ sunday
+\end{goal}
+\end{tabular}
+
+\noindent
+Here, we can use the \TT{destruct} tactic to do case analysis over all possible days that \TT{d} can be, giving us 7 subgoals (i.e., one for each possible day of the week): 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+destruct d.
+\end{code}
+&
+\begin{goal}		
+7 subgoals													\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/7)	\\
+next\_weekday monday $<>$ sunday								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/7)	\\
+next\_weekday tuesday $<>$ sunday								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(3/7)	\\
+next\_weekday wednesday $<>$ sunday								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(4/7)	\\
+next\_weekday thursday $<>$ sunday								\\	
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(5/7)	\\
+next\_weekday friday $<>$ sunday									\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(6/7)	\\
+next\_weekday saturday $<>$ sunday								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(7/7)	\\
+next\_weekday sunday $<>$ sunday
+\end{goal}
+\end{tabular}
+
+\noindent
+We now need to go through each subgoal and prove that it is not equal. 
+Like in the last proof we did, we will use the tactic \TT{discriminate} 
+-- we can first apply \TT{simpl} to show the result of the given evaluation of \TT{next\_weekday}. 
+For example, we enter into the first subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+next\_weekday monday $<>$ sunday						
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we call \TT{simpl}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- simpl. 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+tuesday $<>$ sunday
+\end{goal}
+\end{tabular}
+
+\noindent
+Then we can use \TT{discriminate} to finish this subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+discriminate.
+\end{code}
+&
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:	\\ 	\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/6)	\\
+next\_weekday tuesday $<>$ sunday								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/6)	\\
+next\_weekday wednesday $<>$ sunday								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(3/6)	\\
+next\_weekday thursday $<>$ sunday								\\	
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(4/6)	\\
+next\_weekday friday $<>$ sunday									\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(5/6)	\\
+next\_weekday saturday $<>$ sunday								\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(6/6)	\\
+next\_weekday sunday $<>$ sunday
+\end{goal}
+\end{tabular}
+
+\noindent
+The proofs for each of these subgoals can be simply solved using \TT{discriminate} 
+(given they are nearly identical to the above, they are shown grouped together): 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- discriminate.		\\
+- discriminate.		\\
+- discriminate.		\\
+- discriminate.		\\
+- discriminate.		\\
+- discriminate.	
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent
+As always, we close out the completed proof using \TT{\Qed}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Qed. 
+\end{code}
+&
+\begin{msg}
+next\_weekday\_is\_not\_sunday is defined
+\end{msg}
+\end{tabular}
+
+
+
+% PROOF 4
+\noindent
+Now, you may be wondering why there isn't a simpler way to show that all cases can be solved using the same tactic. 
+There is, in fact, syntax to do just that -- so we can prove the same thing regarding \TT{saturday} as we did above with \TT{sunday} using the following: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+Example \nm{next\_weekday\_is\_not\_saturday}: 	\\
+\Forall (d:day), next\_weekday d $<>$ saturday. 	\\
+\Proof.
+\end{code}
+&
+\begin{goal}
+1 subgoal			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+\Forall d : day, next\_weekday d $<>$ saturday
+\end{goal}
+\end{tabular}
+
+\noindent
+We make sure to introduce the variable \TT{d} first:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+intros d.
+\end{code}
+&
+\begin{goal}
+1 subgoal			\\
+d : day			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\ 
+next\_weekday d $<>$ saturday
+\end{goal}
+\end{tabular}
+
+\noindent
+Now, as with the previous proof, we want to use \TT{destruct} on \TT{d}, 
+then apply \TT{discriminate} to all subgoals, which we can do by writing the following 
+(the use of the semicolon (i.e., \TT{t1 ; t2}) tells the proof environment to apply the tactic following it (i.e., \TT{t1}) to the result of the tactic before it (i.e., \TT{t2})): 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+destruct d; discriminate.
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+\noindent
+Finally, we close out the proof environment:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Qed.
+\end{code}
+&
+\begin{msg}
+next\_weekday\_is\_not\_saturday is defined
+\end{msg}
+\end{tabular}
+
+
+
+

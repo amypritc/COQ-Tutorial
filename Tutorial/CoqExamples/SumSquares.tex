@@ -1,14 +1,25 @@
 
 Please see file ``sumsq.v'' to follow along with this example. 
 
+~\\
+In this example, we define the function \TT{sumsq}, or the sum of squares 
+(i.e., \TT{$\Sigma_{i=0}^n\ (i * i)$}). 
 
 
 
+\begin{code}
+\Load Arith.
+\\ \\ 
+\Fixpoint \nm{sumsq} (n: nat) : nat := 		\\ \-\ \quad
+	\match n \with						\\ \-\ \qquad
+	$\mid$ O $=>$ 0					\\ \-\ \qquad
+	$\mid$ S p $=>$ (n * n) + (sumsq p)		\\ \-\ \quad
+	\End.
+\end{code}
 
-
-
-
-
+\noindent
+We then want to prove that \TT{6 * sumsq n = n * (n + 1) * (2n + 1)} 
+(or \TT{$sumsq\ n = \frac{n * (n + 1) * (2n + 1)}{6}$}). 
 
 
 

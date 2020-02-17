@@ -50,16 +50,7 @@ functional induction (sum n)
   ring.
 Qed.
 
-Theorem Thm_sum_simple2 :
-forall n:nat,
-2 * sum n = (1 + n) * n.
-Proof.
-intros n.
-destruct n.
-- trivial.
-- unfold sum. 
-  simpl.
-Abort.
+
 
 
 

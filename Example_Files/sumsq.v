@@ -1,4 +1,4 @@
-Require Import ZArith Arith.
+
 Load Arith.
 
 Fixpoint sumsq (n: nat) : nat := 
