@@ -79,8 +79,53 @@ Compute daily_schedule friday.
 Example test_next_weekday:
   (next_weekday (next_weekday saturday))
      = tuesday.
-
 Proof.
 simpl.
 reflexivity.
 Qed.
+
+
+
+Example next_weekday_monday_friday: 
+  next_weekday monday <> friday. 
+Proof. 
+discriminate. 
+Qed.
+
+
+
+Example next_weekday_is_not_sunday: 
+forall (d:day),
+  next_weekday d <> sunday. 
+Proof. 
+intros d.
+destruct d.
+- simpl. discriminate.
+- discriminate.
+- discriminate.
+- discriminate.
+- discriminate.
+- discriminate.
+- discriminate.
+Qed.
+
+Example next_weekday_is_not_saturday: 
+forall (d:day),
+  next_weekday d <> saturday. 
+Proof. 
+intros d.
+destruct d; discriminate.
+Qed.
+
+
+
+
+
+
+
+
+
+
+
+
+

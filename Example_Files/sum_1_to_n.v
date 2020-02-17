@@ -55,9 +55,10 @@ forall n:nat,
 2 * sum n = (1 + n) * n.
 Proof.
 intros n.
-induction n as [ | k IH].
+destruct n.
 - trivial.
-- simpl.
+- unfold sum. 
+  simpl.
 Abort.
 
 
