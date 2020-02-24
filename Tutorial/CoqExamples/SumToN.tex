@@ -1,5 +1,5 @@
 
-Please see file ``sum.v'' to follow along with this example. 
+Please see file ``sum\_1\_to\_n.v'' to follow along with this example. 
 
 ~\\
 This example defines a recursive function that takes a number n and returns the sum of the numbers from one to n (i.e., \TT{$\Sigma_{i = 0}^n\ i$}).
@@ -21,7 +21,392 @@ then the shorter version that applies the ring tactic to take care of the applic
 
 \noindent
 In this example, we will use functional induction to help us successfully complete our proof over the recursive function sum.
-To do this, we must first make sure to require and load FunInd, and then define the functional induction scheme.
+To do this, we must first make sure to require and load \TT{FunInd}, and then define the functional induction scheme.
+
+\begin{code}
+	\cmd{Require} \nm{FunInd}.	\\
+	\Load FunInd.				\\
+	Functional Scheme sum\_ind := Induction for sum Sort \ty{Prop}.
+\end{code}
+
+\noindent 
+Next, we will define the theorem we would like to prove. 
+For this function, we want to prove that $sum\ n = \frac{(1 + n) * n}{2}$; 
+however, given that division is difficult to manage when proving theorems, we will rewrite this as $2 * sum\ n = (1 + n) * n$. 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Theorem \nm{Thm\_sum} :	\\ \-\ \quad
+\Forall n:nat,				
+2 * sum n = (1 + n) * n.		\\
+\Proof. 
+\end{code}
+&
+\begin{goal}
+1 subgoal															\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)		\\
+\Forall n : nat, 2 * sum n = (1 + n) * n
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+As usual, we need to introduce our variable\TT{n} first:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+intros n. 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+n : nat														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+2 * sum n = (1 + n) * n
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+Then we can declare that we would like to use functional induction to complete this proof: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+functional induction (sum n)	\\ \-\ \quad
+  using sum\_ind.
+\end{code}
+&
+\begin{goal}
+2 subgoals													\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/2)	\\
+2 * 0 = (1 + 0) * 0												\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/2)	\\
+2 * (S p + sum p) = (1 + S p) * S p
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+We enter into the first subgoal: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+2 * 0 = (1 + 0) * 0
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+This subgoal can be solved simply by using the tactic \TT{trivial} (this tactic will recognize that both sides will evaluate to 0):
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- trivial. 
+\end{code}
+&
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:			\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1) 	\\
+2 * (S p + sum p) = (1 + S p) * S p
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+Now we enter into our second subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+-
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+2 * (S p + sum p) = (1 + S p) * S p
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+Now, we need to look at our goal and decide what to do from here 
+(keep in mind that we want to be able to match some part of our goal with one of the 
+	sides of the equation of the inductive hypothesis).
+We can try the tactic \TT{auto}, but nothing happens. 
+We can try the tactic \TT{simpl}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- simpl. 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+S (p + sum p + S (p + sum p + 0)) =									\\
+S (p + S (p + p * S p))
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+\TT{simpl} lead to the multiplications broken down, but now there are more terms to try to reason about what we should do next, so lets go back a step again. 
+To get ideas on what we could apply, we can use the command \TT{Search}, such as in \TT{Search Nat.add.}
+We can see that it is possible to apply \TT{Nat.add\_succ\_comm} to the right hand side of our goal:
+
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite $<-$ Nat.add\_succ\_comm.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+2 * (S p + sum p) = (2 + p) * S p
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+This doesn't make the goal more complex, but it also doesn't particularly help us get closer to being able to use the inductive hypothesis to make substitutions in our goal. 
+We can use \TT{Search Nat.mul.} to try to give us some more ideas of properties we could use to get to that point. 
+When looking through the results, \TT{Nat.mul\_add\_distr\_r} and \TT{Nat.mul\_add\_distr\_l} stood out to me as being helpful, so we can try those next:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite $->$ Nat.mul\_add\_distr\_r.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+2 * (S p + sum p) = 2 * S p + p * S p
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+This helped us get rid of the parentheses on the right hand side of the goal, but didn't really get us closer to substituting in the inductive hypothesis. 
+Lets try \TT{Nat.mul\_add\_distr\_l} next: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite $->$ Nat.mul\_add\_distr\_l.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+2 * S p + 2 * sum p = 2 * S p + p * S p
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+Now we have the left hand side of the inductive hypothesis, \TT{2 * sum p}, in our goal, so we can use the tactic \TT{rewrite} with the inductive hypothesis \TT{IHn0}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite $->$ IHn0.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+2 * S p + (1 + p) * p = 2 * S p + p * S p
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+We can try to apply tatic \TT{simpl} again to see if that gets us closer to matching left- and right-hand sides of the goal:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+simpl.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+S (p + S (p + 0) + (p + p * p)) =										\\
+S (p + S (p + 0) + p * S p)
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+Both sides are very similar now, all we need to do is rewrite our goal in some way to get \TT{(p + p * p)} to be equal to \TT{p * S p}. 
+Something similar to the property we first used about addition (\TT{Nat.add\_succ\_comm}) for multiplication would be useful here. 
+Looking at the results of \TT{Search Nat.mul} again can lead us to find \TT{Nat.mul\_succ\_r}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite $->$ Nat.mul\_succ\_r.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+S (p + S (p + 0) + (p + p * p)) =										\\
+S (p + S (p + 0) + (p * p + p))
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+We are very close to finishing now! 
+We can try to apply the tactic \TT{reflexivity}, but it throws an error because it doesn't recognize that \TT{(p + p * p)} and \TT{(p * p + p)} would be equivalent on its own. 
+So we need a way to move around the terms using a commutative property; we have the property \TT{Nat.add\_comm} that would be helpful, but it doesn't match exactly to apply it without giving some extra information: 
+
+\begin{msg}
+	Nat.add\_comm: forall n m : nat, n + m = m + n
+\end{msg}
+
+\noindent
+In Coq, there is a way to leverage properties like this by specifying what one of the terms would be. 
+For example, here we can specify that \TT{n} should be equivalent to \TT{p * p} by doing the following: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite Nat.add\_comm with (n := p*p).
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 2 * sum p = (1 + p) * p										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+S (p + S (p + 0) + (p + p * p)) =										\\
+S (p + S (p + 0) + (p + p * p))
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+Now both sides of the equation of our goal are identical, so we can use \TT{reflexivity} to show this: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+reflexivity.
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+
+
+\noindent 
+Our proof is complete, so we use \TT{\Qed.} to close out the proof:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Qed.
+\end{code}
+&
+\begin{msg}
+Thm\_sum is defined
+\end{msg}
+\end{tabular}
+
+
+
+\noindent 
+You may think that this seems like a bit of a long proof, and there must be a shorter version; 
+however, when completing proofs, the shorter version usually isn't the most obvious one at first, 
+especially if you newer to completing proofs, or even just using a specific proof assistant. 
+If we look back at the first proof, the first subgoal was proven using \TT{trivial}, so we will leave that as is. 
+Then we can see that the only step we needed before applying the inductive hypothesis was to rewrite the goal using \TT{Nat.mul\_add\_distr\_l}, so we will make that our first step to prove the second subgoal. 
+We will apply the inductive hypothesis as the next step. 
+Then, after doing a bit of research (or thinking back to the tactics section, subsection \ref{ring}) we realize that the tactic \TT{ring} will go through and apply various rules about numbers, which can be used to finish our proof after we have applied the inductive hypothesis. 
+
+~\\ \noindent
+The shorter proof is as follows:  
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Theorem \nm{Thm\_sum\_simple} :		\\
+\Forall n:nat,					
+2 * sum n = (1 + n) * n.				\\
+\Proof.							\\	
+intros n.							\\
+functional induction (sum n) 
+  using sum\_ind.					\\
+- trivial.							\\
+- rewrite $->$ Nat.mul\_add\_distr\_l.		\\ \-\ \quad
+  rewrite $->$ IHn0.					\\ \-\ \quad
+  ring.							\\
+\Qed.
+\end{code}
+&
+\begin{msg}
+Thm\_sum\_simple is defined
+\end{msg}
+\end{tabular}
+
+\noindent 
+(If you would like to see all the intermediate steps over the goal for this proof, please follow along with file ``sum\_1\_to\_n.v''.)
+
+
+
+
+
 
 
 

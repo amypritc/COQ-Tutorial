@@ -26,12 +26,17 @@ intros n.
 functional induction (sum n)
   using sum_ind.
 - trivial.
-- rewrite <- Nat.add_succ_comm.
+(* - auto. simpl. *)
+- Search Nat.add. 
+  rewrite <- Nat.add_succ_comm.
+  Search Nat.mul.
   rewrite -> Nat.mul_add_distr_r.
   rewrite -> Nat.mul_add_distr_l.
   rewrite -> IHn0.
   simpl.
+  Search Nat.mul.
   rewrite -> Nat.mul_succ_r.
+(* reflexivity. *)
   rewrite Nat.add_comm with (n:= p*p).
   reflexivity.
 Qed.

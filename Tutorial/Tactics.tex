@@ -37,12 +37,15 @@ Examples using this tactic:
 
 
 
+
 \subsection{auto} \label{auto}
 First attempts to use assumption, then uses intros and generates any hypotheses to use as hints and attempt to apply.
 
 \noindent
 Examples using this tactic: 
 \ref{list_rev}
+
+
 
 
 \subsection{ring} \label{ring}
@@ -56,6 +59,8 @@ Examples using this tactic:
 \ref{sum_to_n}
 
 
+
+
 \subsection{discriminate} \label{discriminate}
 Proves any goal in an assumption stating two structurally different terms of an inductive set are equal. For example, S (S O) = S O.
 
@@ -65,11 +70,13 @@ Examples using this tactic:
 
 
 
+
 \subsection{assumption} \label{assumption}
 Looks in the local context for the hypothesis. The type must be convertible to the goal.
 
 \noindent
 Examples using this tactic: 
+
 
 
 
@@ -82,16 +89,20 @@ Examples using this tactic:
 \ref{sum_to_n}, \ref{list_rev}, \ref{days_proofs}
 
 
-\subsection{contradiction} \label{contradiction}
-Attempts to find a hypothesis equivalent to:
-\begin{itemize}
-	\item an empty inductive type (i.e. false)
-	\item the negation of a single inductive type (i.e. true, x=x)
-	\item two contradictory hypotheses
-\end{itemize}
 
-\noindent
-Examples using this tactic: 
+% Removed - don't have an example to include 
+%
+%\subsection{contradiction} \label{contradiction}
+%Attempts to find a hypothesis equivalent to:
+%\begin{itemize}
+%	\item an empty inductive type (i.e. false)
+%	\item the negation of a single inductive type (i.e. true, x=x)
+%	\item two contradictory hypotheses
+%\end{itemize}
+%
+%\noindent
+%Examples using this tactic: 
+
 
 
 
@@ -105,6 +116,8 @@ Examples using this tactic:
 \ref{list_rev}
 
 
+
+
 \subsection{functional induction} \label{functional induction}
 Very useful for inductive/recursive functions.
 Performs case analysis and induction on the definition of a function.
@@ -114,13 +127,14 @@ To use functional induction, you need to make sure to require and load FunInd, a
 \cmd{Require} \nm{FunInd}.	\\
 \Load FunInd.
 \\ \\
-Functional Scheme name\_ind := 
-  Induction for name Sort \ty{Prop}.
+Functional Scheme name\_ind := Induction for name Sort \ty{Prop}.
 \end{code}
 
 \noindent
 Examples using this tactic: 
 \ref{sum_to_n}
+
+
 
 
 \subsection{destruct} \label{destruct}
@@ -135,6 +149,8 @@ Examples using this tactic:
 \ref{days_proofs}
 
 
+
+
 \subsection{rewrite} \label{rewrite}
 A way to apply previously defined assumptions.
 Can use arrows $<-$ , $->$ to give directionality for the application.
@@ -144,6 +160,8 @@ Example \ref{sum_to_n} demonstrates the use of arrows to give directionality to 
 Examples using this tactic: 
 %\ref{count_to_n}, 
 \ref{sum_to_n}, \ref{list_rev}
+
+
 
 
 \subsection{apply} \label{apply}
