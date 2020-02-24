@@ -18,15 +18,20 @@ Functional Scheme sumsq_ind :=
 
 Theorem Thm_sumsq :
 forall n:nat,
-6 * sumsq n = n * ((S n) * S (2 * n)).
+6 * sumsq n = n * (n + 1) * (2 * n + 1).
 Proof.
 intros n.
 functional induction (sumsq n) 
   using sumsq_ind.
 - trivial.
 - rewrite Nat.mul_add_distr_l 
-    with (m := S p * S p).
+    with (m := S p * S p) (n := 6) 
+         (p := sumsq p).
+(* rewrite Nat.mul_add_distr_l 
+    with (m := S p * S p). *)
   rewrite -> IHn0.
   ring.
 Qed.
+
+Search Nat.mul.
 

@@ -10,7 +10,7 @@ Simplify both sides of an equation.
 \noindent
 Examples using this tactic: 
 %\ref{count_to_n},
-\ref{sum_to_n}, \ref{list_rev}, \ref{days_proofs}
+\ref{days_proofs}, \ref{list_rev}, \ref{sum_to_n}
 
 
 
@@ -21,7 +21,7 @@ Will do more simplifications that simpl; tries unfolding and expanding definitio
 
 \noindent
 Examples using this tactic: 
-\ref{sum_to_n}, , \ref{list_rev}
+\ref{list_rev}, \ref{sum_to_n}
 
 
 
@@ -33,7 +33,7 @@ Tries simple hints, like solving trivial equalities such as x=x.
 \noindent
 Examples using this tactic: 
 %\ref{count_to_n},
-\ref{sum_to_n}
+\ref{sum_to_n}, \ref{sum_sq}
 
 
 
@@ -56,7 +56,7 @@ Uses properties like associativity, commutativity, distributivity, and constant 
 
 \noindent
 Examples using this tactic: 
-\ref{sum_to_n}
+\ref{sum_to_n}, \ref{sum_sq}
 
 
 
@@ -74,8 +74,8 @@ Examples using this tactic:
 \subsection{assumption} \label{assumption}
 Looks in the local context for the hypothesis. The type must be convertible to the goal.
 
-\noindent
-Examples using this tactic: 
+%\noindent
+%Examples using this tactic: 
 
 
 
@@ -86,20 +86,20 @@ Introduces variables from the goal into the proof environment for use.
 \noindent
 Examples using this tactic: 
 %\ref{count_to_n}, 
-\ref{sum_to_n}, \ref{list_rev}, \ref{days_proofs}
+\ref{days_proofs}, \ref{list_rev}, \ref{sum_to_n}, \ref{sum_sq}
 
 
 
 % Removed - don't have an example to include 
 %
-%\subsection{contradiction} \label{contradiction}
-%Attempts to find a hypothesis equivalent to:
-%\begin{itemize}
-%	\item an empty inductive type (i.e. false)
-%	\item the negation of a single inductive type (i.e. true, x=x)
-%	\item two contradictory hypotheses
-%\end{itemize}
-%
+\subsection{contradiction} \label{contradiction}
+Attempts to find a hypothesis equivalent to:
+\begin{itemize}
+	\item an empty inductive type (i.e. false)
+	\item the negation of a single inductive type (i.e. true, x=x)
+	\item two contradictory hypotheses
+\end{itemize}
+
 %\noindent
 %Examples using this tactic: 
 
@@ -132,7 +132,7 @@ Functional Scheme name\_ind := Induction for name Sort \ty{Prop}.
 
 \noindent
 Examples using this tactic: 
-\ref{sum_to_n}
+\ref{sum_to_n}, \ref{sum_sq}
 
 
 
@@ -153,13 +153,17 @@ Examples using this tactic:
 
 \subsection{rewrite} \label{rewrite}
 A way to apply previously defined assumptions.
-Can use arrows $<-$ , $->$ to give directionality for the application.
-Example \ref{sum_to_n} demonstrates the use of arrows to give directionality to rewrite.
+Can use arrows $<-$ , $->$ to give directionality for the application. 
+Can use \TT{rewrite \_ with \_} to specify how to interpret variables in the assumption.
+~\\ \noindent
+Example \ref{sum_to_n} demonstrates the use of arrows to give directionality to rewrite.  
+~\\ \noindent
+Examples \ref{sum_to_n} and \ref{sum_sq} demonstrate the use of \TT{rewrite \_ with \_}. 
 
 \noindent
 Examples using this tactic: 
 %\ref{count_to_n}, 
-\ref{sum_to_n}, \ref{list_rev}
+\ref{list_rev}, \ref{sum_to_n}, \ref{sum_sq}
 
 
 

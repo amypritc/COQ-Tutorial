@@ -6,7 +6,8 @@ In this example, we define the function \TT{sumsq}, or the sum of squares
 (i.e., \TT{$\Sigma_{i=0}^n\ (i * i)$}). 
 
 
-
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
 \begin{code}
 \Load Arith.
 \\ \\ 
@@ -16,10 +17,277 @@ In this example, we define the function \TT{sumsq}, or the sum of squares
 	$\mid$ S p $=>$ (n * n) + (sumsq p)		\\ \-\ \quad
 	\End.
 \end{code}
+&
+\begin{msg}
+sumsq is defined						\\
+sumsq is recursively defined (decreasing on 1st argument)
+\end{msg}
+\end{tabular}
+
 
 \noindent
 We then want to prove that \TT{6 * sumsq n = n * (n + 1) * (2n + 1)} 
-(or \TT{$sumsq\ n = \frac{n * (n + 1) * (2n + 1)}{6}$}). 
+(or \TT{sumsq n = $\frac{n * (n + 1) * (2n + 1)}{6}$}). 
+To do this, we will use functional induction, so we need the following: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\cmd{Require} FunInd.				\\
+\cmd{Load} FunInd.					\\
+Functional Scheme sumsq\_ind := 		\\ \-\ \quad
+  Induction \kw{for} sumsq Sort \ty{Prop}.
+\end{code}
+&
+\begin{msg}
+sumsq\_equation is defined			\\
+sumsq\_ind is defined
+\end{msg}
+\end{tabular}
+
+
+
+\noindent
+Now we will define our theorem, \TT{Thm\_sumsq}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Theorem \nm{Thm\_sumsq} :			\\ \-\ \quad
+\Forall n:nat,						\\ \-\ \quad
+6 * sumsq n = n * (n + 1) * (2 * n + 1).	\\
+\Proof.
+\end{code}
+&
+\begin{goal}
+1 subgoal															\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)		\\
+\Forall n : nat,														\\
+6 * sumsq n = n * (n + 1) * (2 * n + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+
+\noindent
+Then we introduce our variable \TT{n}: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+intros n.
+\end{code}
+&
+\begin{goal}
+1 subgoal															\\
+n : nat															\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)		\\
+6 * sumsq n = n * (n + 1) * (2 * n + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+
+
+\noindent
+We state we want to do functional induction using our previously defined functional induction scheme: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+functional induction (sumsq n) 	\\ \-\ \quad
+  using sumsq\_ind.
+\end{code}
+&
+\begin{goal}
+2 subgoals													\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/2)	\\
+6 * 0 = 0 * (0 + 1) * (2 * 0 + 1)										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(2/2)	\\
+6 * (S p * S p + sumsq p) =										\\
+S p * (S p + 1) * (2 * S p + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+
+\noindent
+Then we enter into the first subgoal:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+6 * 0 = 0 * (0 + 1) * (2 * 0 + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+
+\noindent
+This can be simply proven using tactic \TT{trivial}:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- trivial.
+\end{code}
+&
+\begin{goal}
+This subproof is complete, but there are some unfocused goals:			\\
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+6 * (S p * S p + sumsq p) =										\\
+S p * (S p + 1) * (2 * S p + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+
+\noindent
+We enter into the second subgoal: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- 
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 6 * sumsq p =												\\ \-\ \qquad\quad 
+       p * (p + 1) * (2 * p + 1)										\\\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+6 * (S p * S p + sumsq p) =										\\
+S p * (S p + 1) * (2 * S p + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+\noindent
+As with our previous proof for \TT{sum to n}, we will use \TT{Nat.mul\_add\_distr\_l}, which is defined as: 
+
+\begin{msg}
+Nat.mul\_add\_distr\_l:
+  \Forall n m p : nat,
+  n * (m + p) = n * m + n * p
+\end{msg}
+
+\noindent
+To match this to our goal (i.e., the left-hand side, \TT{6 * (S p * S p + sumsq p)}), we have 
+\TT{n := 6}, \TT{m := S p * S p}, and \TT{p := sumsq p}. 
+We can specify how to exactly how Coq should rewrite it using the following: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+- rewrite Nat.mul\_add\_distr\_l 		\\ \-\ \qquad
+    \kw{with} (m := S p * S p) (n := 6)  \\ \-\ \qquad\qquad \-\
+    	(p := sumsq p).
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 6 * sumsq p =												\\ \-\ \qquad\quad 
+       p * (p + 1) * (2 * p + 1)										\\\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+6 * (S p * S p) + 6 * sumsq p =										\\
+S p * (S p + 1) * (2 * S p + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+\noindent
+Turns out, we could've simply specified the value we needed \TT{m} to be 
+(i.e., \TT{rewrite Nat.mul\_add\_distr\_l \kw{with} (m := S p * S p).}), but the long version works fine too and makes it more clear what substitutions are desired. 
+Returning to our proof, we can see that the left-hand side of our inductive hypothesis (\TT{6 * sumsq p}) is now present in the left-hand side of our goal, so we can use tactic \TT{rewrite} with the inductive hypothesis:
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+rewrite $->$ IHn0.
+\end{code}
+&
+\begin{goal}
+1 subgoal														\\
+p : nat														\\
+IHn0 : 6 * sumsq p =												\\ \-\ \qquad\quad 
+       p * (p + 1) * (2 * p + 1)										\\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_(1/1)	\\
+6 * (S p * S p) +
+p * (p + 1) * (2 * p + 1) =											\\
+S p * (S p + 1) * (2 * S p + 1)
+\end{goal}
+\end{tabular}
+
+
+
+
+\noindent
+Now that we've removed the use of the function \TT{sumsq}, we can try tactic \TT{ring} to progress the proof: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+ring. 
+\end{code}
+&
+\begin{goal}
+No more subgoals.
+\end{goal}
+\end{tabular}
+
+
+
+
+
+\noindent
+As you can see, \TT{ring} successfully proved the remainder of that subgoal. 
+Since there are no subgoals remaining, we finish our proof: 
+
+\hspace{-1cm}
+\begin{tabular}{p{8cm} p{8cm}}
+\begin{code}
+\Qed. 
+\end{code}
+&
+\begin{msg}
+Thm\_sumsq is defined
+\end{msg}
+\end{tabular}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
