@@ -37,6 +37,7 @@ functional induction (sum n)
   Search Nat.mul.
   rewrite -> Nat.mul_succ_r.
 (* reflexivity. *)
+  Search Nat.add.
   rewrite Nat.add_comm with (n:= p*p).
   reflexivity.
 Qed.
